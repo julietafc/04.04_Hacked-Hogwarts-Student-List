@@ -39,13 +39,14 @@ header nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 3em;
+  padding: 3em 6em;
 }
 
 header nav h1 {
   font-family: headings;
-  font-size: 4em;
+  font-size: 5em;
   color: var(--secondary-color);
+  font-weight: 100;
 }
 
 header nav ul {
@@ -103,6 +104,10 @@ article.student {
   font-family: var(--font-secondary);
   font-size: 1.5em;
 }
+
+article.student p {
+  color: white;
+}
 article.student:hover {
   transform: scale(1.08);
   transition: 0.3s ease-in-out;
@@ -146,8 +151,8 @@ article.student .lastname {
   border: 1px solid var(--primary-color);
   color: var(--primary-color);
 }
-.popUpWrapper {
-  background-color: rgba(0, 0, 0, 0.473);
+.popUplWrapper {
+  background-color: rgba(17, 41, 80, 0.649);
   position: fixed;
   top: 0;
   left: 0;
@@ -157,10 +162,15 @@ article.student .lastname {
   justify-content: center;
   align-items: center;
 }
-
-#infoPopUp {
+.infoPopUp {
   background-color: rgb(255, 255, 255);
   width: 30%;
+  height: 30%;
+  display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+}
+.hidden {
+  display: none;
 }
