@@ -1,14 +1,20 @@
 /* IMPORTING FONTS */
 @import url("https://fonts.googleapis.com/css2?family=Abel&display=swap");
 
+@import url("https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap");
+
+@font-face {
+  font-family: headings;
+  src: url(font/harry_p/HARRYP__.TTF);
+}
+
 /* FONT, SIZES AND COLOR PALETTE ROOT */
 
 :root {
   --primary-color: #a34937;
   --secondary-color: #d6b975;
   --terciary-color: #ecdfbf;
-  --font-primary: "Poppins", sans-serif;
-  --font-secondary: "Roboto", sans-serif;
+  --font-secondary: "Old Standard TT", serif;
 }
 
 /* GENERAL SETTINGS */
@@ -17,6 +23,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+main {
+  background-image: url(img/bg.jpg);
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 header {
   height: 150px;
@@ -29,21 +42,23 @@ header nav {
   padding: 3em;
 }
 
-header h1 {
-  font-size: 3em;
-  font-family: fantasy;
+header nav h1 {
+  font-family: headings;
+  font-size: 4em;
+  color: var(--secondary-color);
 }
 
 header nav ul {
   display: flex;
 }
-
 header nav ul li {
   list-style: none;
   margin-left: 3em;
   font-size: 20px;
+  font-family: var(--font-secondary);
+  text-transform: uppercase;
+  color: var(--secondary-color);
 }
-
 header nav ul li:hover {
   text-decoration: underline;
   font-weight: 600;
@@ -55,45 +70,83 @@ header nav ul li:hover {
   align-items: center;
   justify-content: center;
 }
-
 .mainWrapper .heading {
   margin-top: 4em;
   font-size: 2em;
   text-align: center;
+  font-family: var(--font-secondary);
+  color: var(--primary-color);
 }
-
 .mainWrapper .displayOptions {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 6em 16em 0 15em;
 }
-
 .listWrapper {
   width: 100%;
 }
-
 #studentList {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(208px, 332px));
   gap: 2rem;
   margin: 0 15em;
 }
-
 article.student {
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 10px 20px rgba(71, 49, 49, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   padding: 2rem;
   border-radius: 2%;
   margin: 3rem 0;
   text-align: center;
+  background-color: var(--secondary-color);
+  font-family: var(--font-secondary);
+  font-size: 1.5em;
 }
-
 article.student:hover {
   transform: scale(1.08);
   transition: 0.3s ease-in-out;
 }
 
-/* .popUpWrapper {
+article.student .lastname {
+  font-weight: 900;
+}
+
+.faces {
+  width: 150px;
+  height: 150px;
+}
+
+.faces {
+  width: 150px;
+  height: 150px;
+}
+
+.searchBar {
+  padding: 0.6em;
+  padding-left: 1em;
+  border: 1px solid var(--primary-color);
+  font-family: var(--font-secondary);
+  font-size: 1em;
+}
+
+.filter {
+  font-size: 1.2em;
+  color: var(--primary-color);
+  border: none;
+  margin-right: 0.5em;
+  background: none;
+  font-family: var(--font-secondary);
+}
+
+#sortBy {
+  font-size: 1em;
+  padding: 0.5em;
+  font-family: var(--font-secondary);
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+}
+.popUpWrapper {
   background-color: rgba(0, 0, 0, 0.473);
   position: fixed;
   top: 0;
@@ -108,13 +161,6 @@ article.student:hover {
 #infoPopUp {
   background-color: rgb(255, 255, 255);
   width: 30%;
-  height: 30%;
-  display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-} */
-
-/* .hidden {
-  display: none;
-} */
+}
