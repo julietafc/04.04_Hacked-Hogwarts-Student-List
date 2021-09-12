@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Hacked Hogwarts Student List</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <h1>Hogwarts</h1>
+        <ul>
+          <li>Students</li>
+          <li>Prefects</li>
+          <li>Squad</li>
+          <li>Expelled</li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <div class="mainWrapper">
+        <div class="heading">
+          <h2>All non expelled students</h2>
+          <p>Total (number)</p>
+        </div>
+        <div class="displayOptions">
+          <input class="searchBar" type="text" placeholder="Search.." />
+          <div class="filter">
+            <p>
+              <button class="filter" data-action="filter" data-filter="*">All students</button>
+              <button class="filter" data-action="filter" data-filter="slytherin">Slytherin</button>
+              <button class="filter" data-action="filter" data-filter="hufflepuff">Hufflepuff</button>
+              <button class="filter" data-action="filter" data-filter="ravenclaw">Ravenclaw</button>
+              <button class="filter" data-action="filter" data-filter="gryffindor">Gryffindor</button>
+            </p>
+          </div>
+          <div class="sortBy">
+            <select name="select" id="sortBy">
+              <option value="firstName">First Name</option>
+              <option value="lastName">Last Name</option>
+              <option value="responsaibility">Responsaibility</option>
+            </select>
+          </div>
+        </div>
+        <div class="listWrapper">
+          <div id="studentList"></div>
+        </div>
+      </div>
+    </main>
+    <!-- <div class="popUplWrapper hidden">
+      <div id="infoPopUp">
+        <h2 class="fullname">Name</h2>
+        <p class="movie">Movie</p>
+      </div>
+    </div> -->
+    <template id="studentCard">
+      <article class="student">
+        <img class="faces" src="" alt="" />
+        <p class="fullname">Name</p>
+        <p class="middle">Movie</p>
+        <p class="nickname">Movie</p>
+        <p class="lastname">Movie</p>
+      </article>
+    </template>
+    <script src="script.js"></script>
+  </body>
+</html>
