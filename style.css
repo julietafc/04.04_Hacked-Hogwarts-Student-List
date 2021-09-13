@@ -8,12 +8,15 @@
   src: url(font/harry_p/HARRYP__.TTF);
 }
 
+@import url("https://fonts.googleapis.com/css2?family=WindSong:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Charm:wght@400;700&display=swap");
 /* FONT, SIZES AND COLOR PALETTE ROOT */
 
 :root {
   --primary-color: #a34937;
   --secondary-color: #d6b975;
   --terciary-color: #ecdfbf;
+  --font-primary: "Charm", cursive;
   --font-secondary: "Old Standard TT", serif;
 }
 
@@ -73,10 +76,20 @@ header nav ul li:hover {
 }
 .mainWrapper .heading {
   margin-top: 4em;
-  font-size: 2em;
   text-align: center;
-  font-family: var(--font-secondary);
+
   color: var(--primary-color);
+}
+
+.mainWrapper .heading h2 {
+  font-family: var(--font-primary);
+  font-weight: 400;
+  font-size: 4em;
+}
+
+.heading p {
+  font-family: var(--font-secondary);
+  font-size: 1.4em;
 }
 .mainWrapper .displayOptions {
   width: 100%;
@@ -101,12 +114,13 @@ article.student {
   margin: 3rem 0;
   text-align: center;
   background-color: var(--secondary-color);
-  font-family: var(--font-secondary);
+
   font-size: 1.5em;
 }
 
 article.student p {
   color: white;
+  font-family: var(--font-primary);
 }
 article.student:hover {
   transform: scale(1.08);
