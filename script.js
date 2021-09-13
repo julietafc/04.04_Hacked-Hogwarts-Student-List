@@ -50,6 +50,32 @@ function prepareObjects(jsonData) {
   displayList(allStudents);
 }
 
+function selectFilter(event) {
+  const filter = event.target.dataset.filter;
+  console.log(`User selected ${filter}`);
+  filterList(filter);
+}
+
+function filterList(filterBy) {
+  let filteredList = allStudents;
+
+  if (filterBy === "Slytherin") {
+    filteredList = allStudents.filter(isSlytherin);
+  } else if (filterBy === "Hufflepuff") {
+    filteredList = allStudents.filter(isHufflepuff);
+  }
+
+  displayList(filteredList);
+}
+
+function isSlytherin(student) {
+  return student.house === "Slytherin";
+}
+
+function isHufflepuff(student) {
+  return student.house === "Hufflepuff";
+}
+
 function displayList(students) {
   document.querySelector("#studentList").innerHTML = "";
   students.forEach(displayStudent);
