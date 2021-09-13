@@ -49,3 +49,114 @@ function prepareObjects(jsonData) {
 
   displayList(allStudents);
 }
+
+function displayList(students) {
+  document.querySelector("#studentList").innerHTML = "";
+  students.forEach(displayStudent);
+}
+
+function displayStudent(student) {
+  console.log(student);
+  //grab template
+  const template = document.querySelector("template#studentCard").content;
+  //clone it
+  const copy = template.cloneNode(true);
+  //change content
+  copy.querySelector(".student .fullname").textContent = `${student.firstname}`;
+  copy.querySelector(".student .middle").textContent = `${student.middlename}`;
+  copy.querySelector(".student .nickname").textContent = `${student.nickname}`;
+  copy.querySelector(".student .lastname").textContent = `${student.lastname}`;
+  copy.querySelector(".faces").src = `../img/${student.image}.png`;
+  copy.querySelector(".student").addEventListener("click", openModal);
+
+  //grab parent
+  const parent = document.querySelector("#studentList");
+  //append
+  parent.appendChild(copy);
+}
+
+function getFirstName(fullname) {
+  if (fullname.includes(" ") === true) {
+    const firstName = fullname.slice(0, fullname.indexOf(" "));
+    const cleanData = cleanResult(firstName);
+    return cleanData;
+  } else {
+    const cleanData = cleanResult(fullname);
+    return cleanData;
+  }
+}
+
+function getMiddleName(fullname) {
+  if (fullname.includes(" ") === true) {
+    const middleName = fullname.slice(fullname.indexOf(" ") + 1, fullname.lastIndexOf(" "));
+    const firstCharacter = middleName.slice(0, 1);
+
+    if (firstCharacter !== '"') {
+      const cleanData = cleanResult(middleName);
+      return cleanData;
+    }
+  }
+
+  // need to clean "" in middle name
+}
+
+function getNickName(fullname) {
+  const nickname = fullname.slice(fullname.indexOf(" ") + 1, fullname.lastIndexOf(" "));
+  const initial = nickname.slice(0, 1);
+  if (initial === '"') {
+    length = nickname.length;
+    const noQuotes = nickname.slice(1, length - 1);
+    const cleanData = cleanResult(noQuotes);
+    return cleanData;
+  }
+}
+
+function getLastName(fullname) {
+  if (fullname.includes(" ") === true) {
+    const lastName = fullname.slice(fullname.lastIndexOf(" ") + 1);
+    const cleanData = cleanResult(lastName);
+    return cleanData;
+  }
+}
+
+function getImage(lastname, firstname) {
+  if (lastname !== undefined) {
+    const lastnameLower = lastname.toLowerCase();
+    const firstnameLower = firstname.toLowerCase();
+    const initialFirstName = firstname.slice(0, 1).toLowerCase();
+    if (lastname === "Patil") {
+      const imgSrc = `${lastnameLower}_${firstnameLower}.png`;
+      return imgSrc;
+    } else if (lastname.includes("-") === true) {
+      const afterHyphen = lastname.slice(lastname.indexOf("-") + 1);
+      const imgSrc = `${afterHyphen}_${initialFirstName}.png`;
+      return imgSrc;
+    } else {
+      const imgSrc = `${lastnameLower}_${initialFirstName}.png`;
+      return imgSrc;
+    }
+  }
+}
+
+function getHouse(house) {
+  const cleanData = cleanResult(house);
+  return cleanData;
+}
+
+function cleanResult(name) {
+  const noSpaces = name.trim(name);
+  const initial = noSpaces.substring(0, 1).toUpperCase() + noSpaces.substring(1).toLowerCase();
+  const cleanData = initial;
+  return cleanData;
+}
+
+function openModal(e) {
+  console.log("openModal");
+  console.log(this);
+  document.querySelector(".popUplWrapper").classList.remove("hidden");
+  document.querySelector(".popUplWrapper").addEventListener("click", closeModal);
+}
+
+function closeModal() {
+  document.querySelector(".popUplWrapper").classList.add("hidden");
+}
