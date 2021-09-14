@@ -243,6 +243,7 @@ function getImage(lastname, firstname) {
 }
 
 function getBloodType(student, lastname) {
+  let blood;
   if (lastname) {
     if (familyBlood.half.includes(student.lastname)) {
       student.blood = "Halfblood";
@@ -252,6 +253,7 @@ function getBloodType(student, lastname) {
       student.blood = "Muggleblood";
     }
   }
+  return blood;
 }
 
 function getHouse(house) {
