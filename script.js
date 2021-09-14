@@ -17,13 +17,13 @@ const Student = {
 
 function start() {
   console.log("start");
-  selectedButton();
+  // selectedButton();
   loadJson();
 }
 
-function selectedButton() {
-  document.querySelectorAll("[data-action='filter']").forEach((button) => button.addEventListener("click", selectFilter));
-}
+// function selectedButton() {
+//   document.querySelectorAll(".filter").forEach((button) => button.addEventListener("click", selectFilter));
+// }
 
 function loadJson() {
   fetch("https://petlatkea.dk/2021/hogwarts/students.json")
@@ -37,44 +37,46 @@ function prepareObjects(jsonData) {
   jsonData.forEach((object) => {
     // console.log("student", object);
     const student = Object.create(Student);
-    student.house = getHouse(object.house);
-    student.firstname = getFirstName(object.fullname);
-    student.middlename = getMiddleName(object.fullname);
-    student.nickname = getNickName(object.fullname);
-    student.lastname = getLastName(object.fullname);
-    student.image = getImage(object.lastname, object.firstname);
+
+    student.firstname = getFirstName(object.fullname.trim());
+    student.middlename = getMiddleName(object.fullname.trim());
+    student.nickname = getNickName(object.fullname.trim());
+    student.lastname = getLastName(object.fullname.trim());
+    student.house = getHouse(object.house.trim());
+    student.image = getImage(student.lastname, student.firstname);
 
     allStudents.push(student);
   });
 
   displayList(allStudents);
+  console.table(allStudents);
 }
 
-function selectFilter(event) {
-  const filter = event.target.dataset.filter;
-  console.log(`User selected ${filter}`);
-  filterList(filter);
-}
+// function selectFilter(event) {
+//   const filter = event.target.value.filter;
+//   console.log(`User selected ${filter}`);
+//   filterList(filter);
+// }
 
-function filterList(filterBy) {
-  let filteredList = allStudents;
+// function filterList(filterBy) {
+//   let filteredList = allStudents;
 
-  if (filterBy === "Slytherin") {
-    filteredList = allStudents.filter(isSlytherin);
-  } else if (filterBy === "Hufflepuff") {
-    filteredList = allStudents.filter(isHufflepuff);
-  }
+//   if (filterBy === "Slytherin") {
+//     filteredList = allStudents.filter(isSlytherin);
+//   } else if (filterBy === "Hufflepuff") {
+//     filteredList = allStudents.filter(isHufflepuff);
+//   }
 
-  displayList(filteredList);
-}
+//   displayList(filteredList);
+// }
 
-function isSlytherin(student) {
-  return student.house === "Slytherin";
-}
+// function isSlytherin(student) {
+//   return student.house === "Slytherin";
+// }
 
-function isHufflepuff(student) {
-  return student.house === "Hufflepuff";
-}
+// function isHufflepuff(student) {
+//   return student.house === "Hufflepuff";
+// }
 
 function displayList(students) {
   document.querySelector("#studentList").innerHTML = "";
@@ -89,10 +91,14 @@ function displayStudent(student) {
   const copy = template.cloneNode(true);
   //change content
   copy.querySelector(".student .fullname").textContent = `${student.firstname}`;
-  copy.querySelector(".student .middle").textContent = `${student.middlename}`;
-  copy.querySelector(".student .nickname").textContent = `${student.nickname}`;
+  if (student.middlename) {
+    copy.querySelector(".student .middle").textContent = `${student.middlename}`;
+  }
+  if (student.nickname) {
+    copy.querySelector(".student .nickname").textContent = `${student.nickname}`;
+  }
   copy.querySelector(".student .lastname").textContent = `${student.lastname}`;
-  copy.querySelector(".faces").src = `../img/${student.image}.png`;
+  copy.querySelector(".faces").src = `img/${student.image}.png`;
   copy.querySelector(".student").addEventListener("click", openModal);
 
   //grab parent
@@ -146,19 +152,22 @@ function getLastName(fullname) {
 }
 
 function getImage(lastname, firstname) {
-  if (lastname !== undefined) {
+  if (lastname) {
     const lastnameLower = lastname.toLowerCase();
     const firstnameLower = firstname.toLowerCase();
     const initialFirstName = firstname.slice(0, 1).toLowerCase();
     if (lastname === "Patil") {
-      const imgSrc = `${lastnameLower}_${firstnameLower}.png`;
+      const imgSrc = `${lastnameLower}_${firstnameLower}`;
+      console.log(imgSrc);
       return imgSrc;
     } else if (lastname.includes("-") === true) {
       const afterHyphen = lastname.slice(lastname.indexOf("-") + 1);
-      const imgSrc = `${afterHyphen}_${initialFirstName}.png`;
+      const imgSrc = `${afterHyphen}_${initialFirstName}`;
+      console.log(imgSrc);
       return imgSrc;
     } else {
-      const imgSrc = `${lastnameLower}_${initialFirstName}.png`;
+      const imgSrc = `${lastnameLower}_${initialFirstName}`;
+      console.log(imgSrc);
       return imgSrc;
     }
   }
@@ -170,8 +179,8 @@ function getHouse(house) {
 }
 
 function cleanResult(name) {
-  const noSpaces = name.trim(name);
-  const initial = noSpaces.substring(0, 1).toUpperCase() + noSpaces.substring(1).toLowerCase();
+  // const noSpaces = name.trim(name);
+  const initial = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
   const cleanData = initial;
   return cleanData;
 }

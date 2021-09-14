@@ -11,12 +11,6 @@
     <header>
       <nav>
         <h1>Hogwarts</h1>
-        <ul>
-          <li>Students</li>
-          <li>Prefects</li>
-          <li>Squad</li>
-          <li>Expelled</li>
-        </ul>
       </nav>
     </header>
     <main>
@@ -27,15 +21,30 @@
         </div>
         <div class="displayOptions">
           <input class="searchBar" type="text" placeholder="Search.." />
-          <div class="filter">
-            <p>
+
+          <!-- <div class="filter">
+            <label for="filter-list">Houses:</label>
+            <select name="filter-list" id="filter-list">
+              <option class="filter" value="all">All</option>
+              <option class="filter" value="slytherin">Slytherin</option>
+            </select>
+            <label for="filter-list">Responsabilities:</label>
+            <select name="filter-list" id="filter-list">
+              <option value="all">All</option>
+              <option value="prefect">Prefect</option>
+              <option value="hufflepuff">Hufflepuff</option>
+              <option value="ravenclaw">Ravenclaw</option>
+              <option value="gryffindor">Gryffindor</option>
+            </select>
+            <button class="filter" data-action="filter" data-filter="*">Expelled</button> -->
+          <!-- <p>
               <button class="filter" data-action="filter" data-filter="*">All students</button>
               <button class="filter" data-action="filter" data-filter="slytherin">Slytherin</button>
               <button class="filter" data-action="filter" data-filter="hufflepuff">Hufflepuff</button>
               <button class="filter" data-action="filter" data-filter="ravenclaw">Ravenclaw</button>
               <button class="filter" data-action="filter" data-filter="gryffindor">Gryffindor</button>
             </p>
-          </div>
+          </div> -->
           <div class="sortBy">
             <select name="select" id="sortBy">
               <option value="firstName">First Name</option>
@@ -59,8 +68,8 @@
       <article class="student">
         <img class="faces" src="" alt="" />
         <p class="fullname">Name</p>
-        <p class="middle">Movie</p>
-        <p class="nickname">Movie</p>
+        <p class="middle"></p>
+        <p class="nickname"></p>
         <p class="lastname">Movie</p>
       </article>
     </template>
