@@ -27,6 +27,9 @@ function selectedButton() {
   document.querySelectorAll(".filter select").forEach((select) => {
     select.addEventListener("change", selectFilter);
   });
+  document.querySelectorAll(".sortBy select").forEach((select) => {
+    select.addEventListener("change", selectSort);
+  });
 }
 
 function loadJson() {
@@ -117,32 +120,29 @@ function isGryffindor(student) {
   return student.house === "Gryffindor";
 }
 
-// function isPure(student) {
-//   return student.blood === "Pure";
-// }
+function selectSort(event) {
+  const sort = event.target.value;
+  console.log(`User selected ${sort}`);
+  sortList(sort);
+}
 
-// function selectSort(event) {
-//   const sortBy = event.target.value.sort;
-//   console.log(`User selected ${sortBy}`);
-//   sortList(sortBy);
-// }
+function sortList(sortBy) {
+  let sortedList = allStudents;
 
-// function sortList(sortBy) {
-//   let sortedList = allStudents;
-
-//   if (sortBy === "name") {
-//     sortedList = sortedList.sort(sortByFirstName);
-//   }
-//   displayList(sortedList);
-// }
-
-// function sortByFirstName(studentA, studentB) {
-//   if (studentA.firstname < studentB.firstname) {
-//     return -1;
-//   } else {
-//     return 1;
-//   }
-// }
+  // sort by name
+  // if (sortBy === "first") {
+  sortedList = allStudents.sort(sortByFirstName);
+  // }
+  function sortByFirstName(studentA, studentB) {
+    console.log(`sortby is ${sortBy}`);
+    if (studentA[sortBy] < studentB[sortBy]) {
+      return -1;
+    } else {
+      return 1;
+    }
+  }
+  displayList(sortedList);
+}
 function displayList(students) {
   document.querySelector("#studentList").innerHTML = "";
   students.forEach(displayStudent);
