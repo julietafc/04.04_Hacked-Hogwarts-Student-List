@@ -5,6 +5,7 @@ window.addEventListener("load", start);
 // set array for objects
 let allStudents = [];
 
+let familyBlood;
 // objects template
 const Student = {
   firstname: "",
@@ -13,6 +14,7 @@ const Student = {
   lastname: "",
   image: "",
   house: "",
+  blood: "",
 };
 
 function start() {
@@ -28,12 +30,14 @@ function selectedButton() {
 }
 
 function loadJson() {
-  // fetch("https://petlatkea.dk/2021/hogwarts/students.json")
-  //   .then((res) => res.json())
-  //   .then((data) => {
-  //     prepareObjects(data);
-  //   });
-  let families;
+  // fetch blood info from students
+  fetch("https://petlatkea.dk/2021/hogwarts/families.json")
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (data) {
+      familyBlood = data;
+    });
 
   // fetch personal info from students
   fetch("https://petlatkea.dk/2021/hogwarts/students.json")
@@ -42,15 +46,6 @@ function loadJson() {
     })
     .then(function (data) {
       prepareObjects(data);
-    });
-
-  // fetch blood info from students
-  fetch("https://petlatkea.dk/2021/hogwarts/families.json")
-    .then(function (res) {
-      return res.json();
-    })
-    .then(function (data) {
-      families = data;
     });
 }
 
@@ -64,6 +59,7 @@ function prepareObjects(jsonData) {
     student.nickname = getNickName(object.fullname.trim());
     student.lastname = getLastName(object.fullname.trim());
     student.house = getHouse(object.house.trim());
+    student.blood = getBloodType(student.lastname);
     student.image = getImage(student.lastname, student.firstname);
 
     allStudents.push(student);
@@ -242,6 +238,18 @@ function getImage(lastname, firstname) {
       const imgSrc = `${lastnameLower}_${initialFirstName}`;
       console.log(imgSrc);
       return imgSrc;
+    }
+  }
+}
+
+function getBloodType(student, lastname) {
+  if (lastname) {
+    if (familyBlood.half.includes(student.lastname)) {
+      student.blood = "Halfblood";
+    } else if (familyBlood.pure.includes(student.lastname)) {
+      student.blood = "Pureblood";
+    } else {
+      student.blood = "Muggleblood";
     }
   }
 }
