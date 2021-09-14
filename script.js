@@ -28,11 +28,29 @@ function selectedButton() {
 }
 
 function loadJson() {
+  // fetch("https://petlatkea.dk/2021/hogwarts/students.json")
+  //   .then((res) => res.json())
+  //   .then((data) => {
+  //     prepareObjects(data);
+  //   });
+  let families;
+
   // fetch personal info from students
   fetch("https://petlatkea.dk/2021/hogwarts/students.json")
-    .then((res) => res.json())
-    .then((data) => {
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (data) {
       prepareObjects(data);
+    });
+
+  // fetch blood info from students
+  fetch("https://petlatkea.dk/2021/hogwarts/families.json")
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (data) {
+      families = data;
     });
 }
 
