@@ -21,6 +21,23 @@
         </div>
         <div class="displayOptions">
           <input class="searchBar" type="text" placeholder="Search.." />
+          <div class="filter">
+            <label for="filter-list">Houses:</label>
+            <select name="filter-list" id="filter-list">
+              <option class="op1" value="all">All</option>
+              <option class="op2" value="slytherin">Slytherin</option>
+              <option class="op3" value="hufflepuff">Hufflepuff</option>
+              <option class="op3" value="ravenclaw">Ravenclaw</option>
+              <option class="op3" value="gryffindor">Gryffindor</option>
+            </select>
+            <label for="filter-list">Blood-status:</label>
+            <select name="filter-list" id="filter-list">
+              <option class="op1" value="all">All</option>
+              <option class="op2" value="pure">Pure wizard</option>
+              <option class="op3" value="half">Wizard/Muggle</option>
+              <option class="op3" value="plain">Plain muggle</option>
+            </select>
+          </div>
 
           <!-- <div class="filter">
             <label for="filter-list">Houses:</label>
@@ -45,11 +62,12 @@
               <button class="filter" data-action="filter" data-filter="gryffindor">Gryffindor</button>
             </p>
           </div> -->
-          <div class="sortBy">
+          <div class="sortBy" id="sorting">
             <select name="select" id="sortBy">
-              <option value="firstName">First Name</option>
-              <option value="lastName">Last Name</option>
-              <option value="responsaibility">Responsaibility</option>
+              <option data-action="sort" data-sort-direction="asc" data-sort="sort" value="sort">Sort/option></option>
+              <option data-action="sort" data-sort-direction="asc" data-sort="first" value="first">First Name</option>
+              <option data-action="sort" data-sort-direction="asc" data-sort="last" value="last">Last Name</option>
+              <option data-action="sort" data-sort-direction="asc" data-sort="resp" value="resp">Responsaibility</option>
             </select>
           </div>
         </div>

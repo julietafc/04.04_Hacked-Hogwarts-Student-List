@@ -17,15 +17,18 @@ const Student = {
 
 function start() {
   console.log("start");
-  // selectedButton();
+  selectedButton();
   loadJson();
 }
 
-// function selectedButton() {
-//   document.querySelectorAll(".filter").forEach((button) => button.addEventListener("click", selectFilter));
-// }
+function selectedButton() {
+  document.querySelectorAll(".filter select").forEach((select) => {
+    select.addEventListener("change", selectFilter);
+  });
+}
 
 function loadJson() {
+  // fetch personal info from students
   fetch("https://petlatkea.dk/2021/hogwarts/students.json")
     .then((res) => res.json())
     .then((data) => {
@@ -52,32 +55,80 @@ function prepareObjects(jsonData) {
   console.table(allStudents);
 }
 
-// function selectFilter(event) {
-//   const filter = event.target.value.filter;
-//   console.log(`User selected ${filter}`);
-//   filterList(filter);
+function selectFilter(event) {
+  const filter = event.target.value;
+  console.log(`User selected ${filter}`);
+  filterList(filter);
+}
+
+function filterList(filterBy) {
+  let filteredList = allStudents;
+
+  // houses filter
+  if (filterBy === "slytherin") {
+    filteredList = allStudents.filter(isSlytherin);
+  } else if (filterBy === "hufflepuff") {
+    filteredList = allStudents.filter(isHufflepuff);
+  } else if (filterBy === "ravenclaw") {
+    filteredList = allStudents.filter(isRavenclaw);
+  } else if (filterBy === "gryffindor") {
+    filteredList = allStudents.filter(isGryffindor);
+  }
+
+  // blood filter
+  // if (filterBy === "pure") {
+  //   filteredList = allStudents.filter(isPure);
+  // } else if (filterBy === "half") {
+  //   filteredList = allStudents.filter(isHalf);
+  // } else if (filterBy === "plain") {
+  //   filteredList = allStudents.filter(isPlain);
+  // }
+
+  displayList(filteredList);
+}
+
+function isSlytherin(student) {
+  return student.house === "Slytherin";
+}
+
+function isHufflepuff(student) {
+  return student.house === "Hufflepuff";
+}
+
+function isRavenclaw(student) {
+  return student.house === "Ravenclaw";
+}
+
+function isGryffindor(student) {
+  return student.house === "Gryffindor";
+}
+
+// function isPure(student) {
+//   return student.blood === "Pure";
 // }
 
-// function filterList(filterBy) {
-//   let filteredList = allStudents;
+// function selectSort(event) {
+//   const sortBy = event.target.value.sort;
+//   console.log(`User selected ${sortBy}`);
+//   sortList(sortBy);
+// }
 
-//   if (filterBy === "Slytherin") {
-//     filteredList = allStudents.filter(isSlytherin);
-//   } else if (filterBy === "Hufflepuff") {
-//     filteredList = allStudents.filter(isHufflepuff);
+// function sortList(sortBy) {
+//   let sortedList = allStudents;
+
+//   if (sortBy === "name") {
+//     sortedList = sortedList.sort(sortByFirstName);
 //   }
-
-//   displayList(filteredList);
+//   displayList(sortedList);
 // }
 
-// function isSlytherin(student) {
-//   return student.house === "Slytherin";
+// function sortByFirstName(studentA, studentB) {
+//   if (studentA.firstname < studentB.firstname) {
+//     return -1;
+//   } else {
+//     return 1;
+//   }
 // }
-
-// function isHufflepuff(student) {
-//   return student.house === "Hufflepuff";
-// }
-
 function displayList(students) {
   document.querySelector("#studentList").innerHTML = "";
   students.forEach(displayStudent);
@@ -135,19 +186,23 @@ function getMiddleName(fullname) {
 function getNickName(fullname) {
   const nickname = fullname.slice(fullname.indexOf(" ") + 1, fullname.lastIndexOf(" "));
   const initial = nickname.slice(0, 1);
-  if (initial === '"') {
-    length = nickname.length;
-    const noQuotes = nickname.slice(1, length - 1);
-    const cleanData = cleanResult(noQuotes);
-    return cleanData;
+  if (nickname) {
+    if (initial === '"') {
+      length = nickname.length;
+      const noQuotes = nickname.slice(1, length - 1);
+      const cleanData = cleanResult(noQuotes);
+      return cleanData;
+    }
   }
 }
 
 function getLastName(fullname) {
-  if (fullname.includes(" ") === true) {
-    const lastName = fullname.slice(fullname.lastIndexOf(" ") + 1);
-    const cleanData = cleanResult(lastName);
-    return cleanData;
+  if (fullname) {
+    if (fullname.includes(" ") === true) {
+      const lastName = fullname.slice(fullname.lastIndexOf(" ") + 1);
+      const cleanData = cleanResult(lastName);
+      return cleanData;
+    }
   }
 }
 
@@ -179,7 +234,6 @@ function getHouse(house) {
 }
 
 function cleanResult(name) {
-  // const noSpaces = name.trim(name);
   const initial = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
   const cleanData = initial;
   return cleanData;
