@@ -66,19 +66,46 @@
 
         </div>
         <div class="listWrapper">
-          <div id="studentList"></div>
+          <div id="studentList">
+            <div id="studentPopUp"></div>
+          </div>
         </div>
       </div>
     </main>
-    <div class="popUplWrapper hidden">
+
+    <template id="popUplWrapper" class="hidden">
+
+
       <div class="infoPopUp">
-        <h2 class="fullname">Name</h2>
-        <p class="house">Movie</p>
+        <div class="imgsWrapper">
+          <img class="facesPopUp" src="img/abbott_h.png" alt="" />
+          <div class="crestPopUp">
+            <img src="img/gryffindor.png" alt="">
+          </div>
+        </div>
+        <div class="namePopUp">
+        <h2 class="firstname">Name</h2>
+        <p class="nickname">Lastname</p>
+        <p class="middle">Lastname</p>
+        <p class="lastname">Lastname</p>
+        <p class="blood-status">Pureblood</p>
       </div>
-    </div>
+      <div class="actions">
+        <button>Action 1</button>
+        <button>Action 2</button>
+        <button>Action 3</button>
+      </div>
+      </div>
+
+
+
+    </template>
     <template id="studentCard">
       <article class="student">
         <img class="faces" src="" alt="" />
+        <div class="house-crest">
+          <img src="img/gryffindor.png" alt="">
+        </div>
         <p class="fullname">Name</p>
         <p class="middle"></p>
         <p class="nickname"></p>

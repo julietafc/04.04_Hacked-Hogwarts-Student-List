@@ -302,17 +302,17 @@ function getImage(lastname, firstname) {
 }
 
 function getBloodType(lastname) {
-  let blood;
-  if (familyBlood.half.includes(lastname)) {
-    blood = "Halfblood";
-  }
-  if (familyBlood.pure.includes(lastname)) {
-    blood = "Pureblood";
-  }
-  if (lastname) {
-    blood = "Muggleblood";
-  }
-  return blood;
+  // let blood;
+  // if (familyBlood.half.includes(lastname)) {
+  //   blood = "Halfblood";
+  // }
+  // if (familyBlood.pure.includes(lastname)) {
+  //   blood = "Pureblood";
+  // }
+  // if (lastname) {
+  //   blood = "Muggleblood";
+  // }
+  // return blood;
 }
 
 function getHouse(house) {
@@ -328,11 +328,29 @@ function cleanResult(name) {
 
 function openModal(e) {
   console.log("openModal");
-  console.log(this);
-  document.querySelector(".popUplWrapper").classList.remove("hidden");
-  document.querySelector(".popUplWrapper").addEventListener("click", closeModal);
-}
+  console.log(e);
 
+  document.querySelector(".popUplWrapper").addEventListener("click", closeModal);
+
+  // grab template
+  const template = document.querySelector("#popUplWrapper").content;
+
+  // clone it
+  const copy = template.cloneNode(true);
+
+  //apend
+
+  //   //change content
+  //   document.querySelector(".infoPopUp");
+  //   popUpModal.querySelector(".namePopUp h2").textContent = `${student.firstname}`;
+  //   document.querySelector(".popUplWrapper").addEventListener("click", closeModal);
+  //
+
+  //grab parent
+  const parent = document.querySelector("#studentPopUp");
+  //append
+  parent.appendChild(copy);
+}
 function closeModal() {
   document.querySelector(".popUplWrapper").classList.add("hidden");
 }

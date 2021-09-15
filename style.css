@@ -16,6 +16,7 @@
   --primary-color: #a34937;
   --secondary-color: #d6b975;
   --terciary-color: #ecdfbf;
+  --forth-color: #123263;
   --font-primary: "Charm", cursive;
   --font-secondary: "Old Standard TT", serif;
 }
@@ -113,7 +114,8 @@ article.student {
   border-radius: 2%;
   margin: 3rem 0;
   text-align: center;
-  background-color: var(--secondary-color);
+  background-color: var(--forth-color);
+  position: relative;
 
   font-size: 1.5em;
 }
@@ -199,20 +201,50 @@ label {
 }
 .infoPopUp {
   background-color: rgb(255, 255, 255);
-  width: 30%;
-  height: 30%;
+  padding: 3em;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 .hidden {
   display: none;
 }
 
+.house-crest {
+  position: absolute;
+  right: 20%;
+  bottom: 37%;
+}
+.house-crest img {
+  width: 70px;
+}
+
+.crestPopUp {
+  position: absolute;
+  right: 20%;
+  bottom: 37%;
+}
+.crestPopUp img {
+  width: 70px;
+}
 /* #sorting-listselect.sortby[data-sort-direction="asc"]::after {
   content: "↓";
 }
 #sorting-list select.sortby[data-sort-direction="desc"]::after {
   content: "↑";
 } */
+
+.namePopUp {
+  text-align: center;
+}
+
+.actions {
+  margin-top: 2em;
+}
+
+.facesPopUp {
+  width: 200px;
+  height: 200px;
+}
