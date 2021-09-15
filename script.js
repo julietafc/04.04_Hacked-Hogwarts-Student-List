@@ -3,6 +3,7 @@
 window.addEventListener("load", start);
 
 let familyBlood;
+let popUp = document.querySelector(".popUpWrapper");
 
 // settings objects for global variables
 const settings = {
@@ -326,31 +327,30 @@ function cleanResult(name) {
   return cleanData;
 }
 
-function openModal(e) {
-  console.log("openModal");
-  console.log(e);
+function openModal(student) {
+  popUp.classList.remove("hidden");
 
-  document.querySelector(".popUplWrapper").addEventListener("click", closeModal);
+  popUp.querySelector(".facesPopUp").src = `img/${student.image}.png`;
+  popUp.querySelector("h2").textContent = `${student.firstname} ${student.lastname}`;
 
-  // grab template
-  const template = document.querySelector("#popUplWrapper").content;
-
-  // clone it
-  const copy = template.cloneNode(true);
-
-  //apend
-
-  //   //change content
-  //   document.querySelector(".infoPopUp");
-  //   popUpModal.querySelector(".namePopUp h2").textContent = `${student.firstname}`;
-  //   document.querySelector(".popUplWrapper").addEventListener("click", closeModal);
-  //
-
-  //grab parent
-  const parent = document.querySelector("#studentPopUp");
-  //append
-  parent.appendChild(copy);
+  if (student.house === "Gryffindor") {
+    popUp.querySelector(".crestPopUp > img").src = "img/Gryffindor.png";
+    popUp.querySelector(".infoPopUp").classList.add("Gryffindor");
+  } else if (student.house === "Slytherin") {
+    popUp.querySelector(".crestPopUp > img").src = "img/Slytherin.png";
+    popUp.querySelector(".infoPopUp").classList.add("Slytherin");
+  } else if (student.house === "Ravenclaw") {
+    popUp.querySelector(".crestPopUp > img").src = "img/Ravenclaw.png";
+    popUp.querySelector(".infoPopUp").classList.add("Ravenclaw");
+  } else if (student.house === "Hufflepuff") {
+    popUp.querySelector(".crestPopUp > img").src = "img/Hufflepuff.png";
+    popUp.querySelector(".infoPopUp").classList.add("Hufflepuff");
+  }
+  popUp.querySelector("#close").addEventListener("click", function () {
+    popUp.classList.add("hidden");
+  });
 }
-function closeModal() {
-  document.querySelector(".popUplWrapper").classList.add("hidden");
-}
+
+// function closeModal() {
+//   document.querySelector(".popUpWrapper").classList.add("hidden");
+// }

@@ -188,7 +188,7 @@ label {
   border: 1px solid var(--primary-color);
   color: var(--primary-color);
 }
-.popUplWrapper {
+.popUpWrapper {
   background-color: rgba(17, 41, 80, 0.649);
   position: fixed;
   top: 0;
@@ -201,11 +201,11 @@ label {
 }
 .infoPopUp {
   background-color: rgb(255, 255, 255);
-  padding: 3em;
+  width: 40%;
+  padding: 3em 5em;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   position: relative;
 }
 .hidden {
@@ -223,11 +223,11 @@ label {
 
 .crestPopUp {
   position: absolute;
-  right: 20%;
-  bottom: 37%;
+  bottom: 24%;
+  left: 40%;
 }
 .crestPopUp img {
-  width: 70px;
+  width: 95px;
 }
 /* #sorting-listselect.sortby[data-sort-direction="asc"]::after {
   content: "↓";
@@ -242,9 +242,49 @@ label {
 
 .actions {
   margin-top: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 .facesPopUp {
   width: 200px;
   height: 200px;
+}
+
+.personalInfo {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.Gryffindor {
+  background-color: #bb1b25;
+  border: 13px solid #eac459;
+}
+
+.Slytherin {
+  background-color: #545375;
+  border: 13px solid #45857c;
+}
+
+.Ravenclaw {
+  background-color: #31568e;
+  border: 13px solid #c3deef;
+}
+
+.Hufflepuff {
+  background-color: #3b4552;
+  border: 13px solid #fdef97;
+}
+
+#close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-family: var(--font-secondary);
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 1.4em;
+  padding: 1em;
 }

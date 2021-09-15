@@ -73,10 +73,10 @@
       </div>
     </main>
 
-    <template id="popUplWrapper" class="hidden">
-
-
+    <div class="popUpWrapper hidden">
       <div class="infoPopUp">
+        <div id="close">X</div>
+        <div class="personalInfo">
         <div class="imgsWrapper">
           <img class="facesPopUp" src="img/abbott_h.png" alt="" />
           <div class="crestPopUp">
@@ -90,16 +90,22 @@
         <p class="lastname">Lastname</p>
         <p class="blood-status">Pureblood</p>
       </div>
+    </div>
       <div class="actions">
-        <button>Action 1</button>
-        <button>Action 2</button>
-        <button>Action 3</button>
+        <button id="expellBtn">Expell</button>
+        <button id="prefectBtn">Make Prefect</button>
+        <button id="prefectRevokeBtn" class="hidden">Remove Prefect</button>
+        <button id="inquisitorialBtn">
+          Appoint to the inquisitorial squad
+        </button>
+        <button id="inquisitorialRevokeBtn" class="hidden">
+          Remove from the inquisitorial squad
+        </button>
       </div>
       </div>
+    </div>
 
-
-
-    </template>
+    </div>
     <template id="studentCard">
       <article class="student">
         <img class="faces" src="" alt="" />
