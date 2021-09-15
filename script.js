@@ -220,6 +220,7 @@ function displayStudent(student) {
   }
   copy.querySelector(".student .lastname").textContent = `${student.lastname}`;
   copy.querySelector(".faces").src = `img/${student.image}.png`;
+  copy.querySelector(".house-crest > img").src = `img/${student.house}.png`;
   copy.querySelector(".student").addEventListener("click", openModal);
 
   //grab parent
@@ -332,9 +333,10 @@ function openModal(student) {
 
   popUp.querySelector(".facesPopUp").src = `img/${student.image}.png`;
   popUp.querySelector("h2").textContent = `${student.firstname} ${student.lastname}`;
+  popUp.querySelector(".blood-status").textContent = `${student.blood}`;
 
   if (student.house === "Gryffindor") {
-    popUp.querySelector(".crestPopUp > img").src = "img/Gryffindor.png";
+    popUp.querySelector(".crestPopUp > img").src = `img/${student.house}.png`;
     popUp.querySelector(".infoPopUp").classList.add("Gryffindor");
   } else if (student.house === "Slytherin") {
     popUp.querySelector(".crestPopUp > img").src = "img/Slytherin.png";
