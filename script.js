@@ -2,6 +2,8 @@
 
 window.addEventListener("load", start);
 
+let familyBlood;
+
 // settings objects for global variables
 const settings = {
   filterBy: "all",
@@ -12,7 +14,6 @@ const settings = {
 // set array for objects
 let allStudents = [];
 
-let familyBlood;
 // objects template
 const Student = {
   firstname: "",
@@ -25,7 +26,8 @@ const Student = {
 };
 
 function start() {
-  console.log("start");
+  // console.log("start");
+
   selectedButton();
   loadJson();
 }
@@ -40,16 +42,7 @@ function selectedButton() {
 }
 
 function loadJson() {
-  // fetch blood info from students
-  fetch("https://petlatkea.dk/2021/hogwarts/families.json")
-    .then(function (res) {
-      return res.json();
-    })
-    .then(function (data) {
-      familyBlood = data;
-    });
-
-  // fetch personal info from students
+  // fetching students info
   fetch("https://petlatkea.dk/2021/hogwarts/students.json")
     .then(function (res) {
       return res.json();
@@ -57,10 +50,25 @@ function loadJson() {
     .then(function (data) {
       prepareObjects(data);
     });
+
+  // fetching families info
+  fetch("https://petlatkea.dk/2021/hogwarts/families.json")
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (data) {
+      familyBlood = data;
+    });
 }
 
 function prepareObjects(jsonData) {
-  jsonData.forEach((object) => {
+  allStudents = jsonData.map(preapareObject);
+
+  buildList();
+}
+
+function prepareObjects(jsonObject) {
+  jsonObject.forEach((object) => {
     // console.log("student", object);
     const student = Object.create(Student);
 
@@ -80,9 +88,9 @@ function prepareObjects(jsonData) {
 }
 
 function selectFilter(event) {
-  const filterBy = event.target.value;
-  console.log(`User selected ${filterBy}`);
-  setFilter(filterBy);
+  const filter = event.target.value;
+  console.log(`User selected ${filter}`);
+  setFilter(filter);
 }
 
 function setFilter(filter) {
@@ -183,7 +191,7 @@ function sortList(sortedList) {
 }
 
 function buildList() {
-  const currentList = filterList();
+  const currentList = filterList(allStudents);
   const sortedList = sortList(currentList);
 
   displayList(sortedList);
