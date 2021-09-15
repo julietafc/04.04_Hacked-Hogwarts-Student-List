@@ -42,15 +42,6 @@ function selectedButton() {
 }
 
 function loadJson() {
-  // fetching students info
-  fetch("https://petlatkea.dk/2021/hogwarts/students.json")
-    .then(function (res) {
-      return res.json();
-    })
-    .then(function (data) {
-      prepareObjects(data);
-    });
-
   // fetching families info
   fetch("https://petlatkea.dk/2021/hogwarts/families.json")
     .then(function (res) {
@@ -58,6 +49,15 @@ function loadJson() {
     })
     .then(function (data) {
       familyBlood = data;
+    });
+
+  // fetching students info
+  fetch("https://petlatkea.dk/2021/hogwarts/students.json")
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (data) {
+      prepareObjects(data);
     });
 }
 
@@ -88,6 +88,7 @@ function prepareObjects(jsonObject) {
 }
 
 function selectFilter(event) {
+  console.log(event.target);
   const filter = event.target.value;
   console.log(`User selected ${filter}`);
   setFilter(filter);
@@ -102,13 +103,13 @@ function filterList(filteredList) {
   // let filteredList = allStudents;
 
   // houses filter
-  if (settings.filterBy === "slytherin") {
+  if (settings.filterBy === "Slytherin") {
     filteredList = allStudents.filter(isSlytherin);
-  } else if (settings.filterBy === "hufflepuff") {
+  } else if (settings.filterBy === "Hufflepuff") {
     filteredList = allStudents.filter(isHufflepuff);
-  } else if (settings.filterBy === "ravenclaw") {
+  } else if (settings.filterBy === "Ravenclaw") {
     filteredList = allStudents.filter(isRavenclaw);
-  } else if (settings.filterBy === "gryffindor") {
+  } else if (settings.filterBy === "Gryffindor") {
     filteredList = allStudents.filter(isGryffindor);
   }
 
@@ -265,11 +266,15 @@ function getNickName(fullname) {
 }
 
 function getLastName(fullname) {
+  let lastName;
   if (fullname) {
-    if (fullname.includes(" ") === true) {
-      const lastName = fullname.slice(fullname.lastIndexOf(" ") + 1);
+    if (fullname.includes(" ")) {
+      lastName = fullname.slice(fullname.lastIndexOf(" ") + 1);
       const cleanData = cleanResult(lastName);
       return cleanData;
+    } else {
+      lastName = "";
+      return lastName;
     }
   }
 }
@@ -296,16 +301,16 @@ function getImage(lastname, firstname) {
   }
 }
 
-function getBloodType(student, lastname) {
+function getBloodType(lastname) {
   let blood;
+  if (familyBlood.half.includes(lastname)) {
+    blood = "Halfblood";
+  }
+  if (familyBlood.pure.includes(lastname)) {
+    blood = "Pureblood";
+  }
   if (lastname) {
-    if (familyBlood.half.includes(student.lastname)) {
-      student.blood = "Halfblood";
-    } else if (familyBlood.pure.includes(student.lastname)) {
-      student.blood = "Pureblood";
-    } else {
-      student.blood = "Muggleblood";
-    }
+    blood = "Muggleblood";
   }
   return blood;
 }

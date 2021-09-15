@@ -20,15 +20,15 @@
           <p>Total (number)</p>
         </div>
         <div class="displayOptions">
-          <input class="searchBar" type="text" placeholder="Search.." />
+          <input id="searchBar" name="searchBar" type="text" placeholder="Search for a student" />
           <div class="filter">
             <div class="filter1">
             <select name="filter-list" id="filter-list">
-              <option value="all">All houses</option>
-              <option value="slytherin">Slytherin</option>
-              <option value="hufflepuff">Hufflepuff</option>
-              <option value="ravenclaw">Ravenclaw</option>
-              <option value="gryffindor">Gryffindor</option>
+              <option data-action="filter" data-filter="*" value="all">All houses</option>
+              <option data-action="filter" data-filter="Slytherin" value="Slytherin">Slytherin</option>
+              <option data-action="filter" data-filter="Hufflepuff" value="Hufflepuff">Hufflepuff</option>
+              <option data-action="filter" data-filter="ravenclaw" value="Ravenclaw">Ravenclaw</option>
+              <option data-action="filter" data-filter="gryffindor" value="Gryffindor">Gryffindor</option>
             </select>
           </div>
           <div class="filter2">

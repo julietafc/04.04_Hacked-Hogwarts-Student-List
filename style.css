@@ -136,7 +136,7 @@ article.student .lastname {
   height: 150px;
 }
 
-.searchBar {
+#searchBar {
   padding: 0.6em;
   padding-left: 1em;
   border: 1px solid var(--primary-color);
