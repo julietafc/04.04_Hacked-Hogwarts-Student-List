@@ -24,6 +24,7 @@ const Student = {
   image: "",
   house: "",
   blood: "",
+  inquisitorial: false,
 };
 
 function start() {
@@ -50,16 +51,19 @@ function loadJson() {
     })
     .then(function (data) {
       familyBlood = data;
+      fetchStudents();
     });
 
   // fetching students info
-  fetch("https://petlatkea.dk/2021/hogwarts/students.json")
-    .then(function (res) {
-      return res.json();
-    })
-    .then(function (data) {
-      prepareObjects(data);
-    });
+  function fetchStudents() {
+    fetch("https://petlatkea.dk/2021/hogwarts/students.json")
+      .then(function (res) {
+        return res.json();
+      })
+      .then(function (data) {
+        prepareObjects(data);
+      });
+  }
 }
 
 function prepareObjects(jsonData) {
@@ -88,146 +92,7 @@ function prepareObjects(jsonObject) {
   console.table(allStudents);
 }
 
-function selectFilter(event) {
-  console.log(event.target);
-  const filter = event.target.value;
-  console.log(`User selected ${filter}`);
-  setFilter(filter);
-}
-
-function setFilter(filter) {
-  settings.filterBy = filter;
-  buildList();
-}
-
-function filterList(filteredList) {
-  // let filteredList = allStudents;
-
-  // houses filter
-  if (settings.filterBy === "Slytherin") {
-    filteredList = allStudents.filter(isSlytherin);
-  } else if (settings.filterBy === "Hufflepuff") {
-    filteredList = allStudents.filter(isHufflepuff);
-  } else if (settings.filterBy === "Ravenclaw") {
-    filteredList = allStudents.filter(isRavenclaw);
-  } else if (settings.filterBy === "Gryffindor") {
-    filteredList = allStudents.filter(isGryffindor);
-  }
-
-  // blood filter
-  // if (filterBy === "pure") {
-  //   filteredList = allStudents.filter(isPure);
-  // } else if (filterBy === "half") {
-  //   filteredList = allStudents.filter(isHalf);
-  // } else if (filterBy === "plain") {
-  //   filteredList = allStudents.filter(isPlain);
-  // }
-
-  return filteredList;
-}
-
-function isSlytherin(student) {
-  return student.house === "Slytherin";
-}
-
-function isHufflepuff(student) {
-  return student.house === "Hufflepuff";
-}
-
-function isRavenclaw(student) {
-  return student.house === "Ravenclaw";
-}
-
-function isGryffindor(student) {
-  return student.house === "Gryffindor";
-}
-
-function selectSort(event) {
-  const sortBy = event.target.value;
-  const sortDir = event.target.sortDirection; // not sure if it should be like this when using option
-
-  // // find "old" sortby element and remove sortby
-  // const oldElement = document.querySelector(`[data-sort = '${settings.sortBy}']`);
-  // oldElement.classList.remove("sortby");
-
-  // //indicate active sort
-  // event.target.classList.add("sortby");
-
-  //toggle the direction
-  if (sortDir === "asc") {
-    event.target.dataset.sortDirection = "desc";
-  } else {
-    event.target.dataset.sortDirection = "asc";
-  }
-  console.log(`User selected ${sortBy} - ${sortDir}`);
-  setSort(sortBy, sortDir);
-}
-
-function setSort(sortBy, sortDir) {
-  settings.sortBy = sortBy;
-  settings.sortDir = sortDir;
-  buildList();
-}
-
-function sortList(sortedList) {
-  // let sortedList = allStudents;
-  let direction = 1;
-  if (settings.sortDir === "desc") {
-    direction = -1;
-  } else {
-    settings.direction = 1;
-  }
-
-  sortedList = allStudents.sort(sortByFirstName);
-
-  // closure function to make it work in every situation
-  function sortByFirstName(studentA, studentB) {
-    console.log(`sortby is ${settings.sortBy}`);
-    if (studentA[settings.sortBy] < studentB[settings.sortBy]) {
-      return -1;
-    } else {
-      return 1;
-    }
-  }
-  return sortedList;
-}
-
-function buildList() {
-  const currentList = filterList(allStudents);
-  const sortedList = sortList(currentList);
-
-  displayList(sortedList);
-}
-
-function displayList(students) {
-  document.querySelector("#studentList").innerHTML = "";
-  students.forEach(displayStudent);
-}
-
-function displayStudent(student) {
-  console.log(student);
-  //grab template
-  const template = document.querySelector("template#studentCard").content;
-  //clone it
-  const copy = template.cloneNode(true);
-  //change content
-  copy.querySelector(".student .fullname").textContent = `${student.firstname}`;
-  if (student.middlename) {
-    copy.querySelector(".student .middle").textContent = `${student.middlename}`;
-  }
-  if (student.nickname) {
-    copy.querySelector(".student .nickname").textContent = `${student.nickname}`;
-  }
-  copy.querySelector(".student .lastname").textContent = `${student.lastname}`;
-  copy.querySelector(".faces").src = `img/${student.image}.png`;
-  copy.querySelector(".house-crest > img").src = `img/${student.house}.png`;
-  copy.querySelector(".student").addEventListener("click", openModal);
-
-  //grab parent
-  const parent = document.querySelector("#studentList");
-  //append
-  parent.appendChild(copy);
-}
+/* ---------- PREPARING & CLEANING DATA ---------- */
 
 function getFirstName(fullname) {
   if (fullname.includes(" ") === true) {
@@ -328,29 +193,240 @@ function cleanResult(name) {
   return cleanData;
 }
 
+/* ---------- FILTERING & SORTING ---------- */
+
+function selectFilter(event) {
+  console.log(event.target);
+  const filter = event.target.value;
+  console.log(`User selected ${filter}`);
+  setFilter(filter);
+}
+
+function setFilter(filter) {
+  settings.filterBy = filter;
+  buildList();
+}
+
+function filterList(filteredList) {
+  // let filteredList = allStudents;
+
+  // houses filter
+  if (settings.filterBy === "Slytherin") {
+    filteredList = allStudents.filter(isSlytherin);
+  } else if (settings.filterBy === "Hufflepuff") {
+    filteredList = allStudents.filter(isHufflepuff);
+  } else if (settings.filterBy === "Ravenclaw") {
+    filteredList = allStudents.filter(isRavenclaw);
+  } else if (settings.filterBy === "Gryffindor") {
+    filteredList = allStudents.filter(isGryffindor);
+  }
+
+  // blood filter
+  // if (filterBy === "pure") {
+  //   filteredList = allStudents.filter(isPure);
+  // } else if (filterBy === "half") {
+  //   filteredList = allStudents.filter(isHalf);
+  // } else if (filterBy === "plain") {
+  //   filteredList = allStudents.filter(isPlain);
+  // }
+
+  return filteredList;
+}
+
+function isSlytherin(student) {
+  return student.house === "Slytherin";
+}
+
+function isHufflepuff(student) {
+  return student.house === "Hufflepuff";
+}
+
+function isRavenclaw(student) {
+  return student.house === "Ravenclaw";
+}
+
+function isGryffindor(student) {
+  return student.house === "Gryffindor";
+}
+
+function selectSort(event) {
+  const sortBy = event.target.value;
+  const sortDir = event.target.sortDirection; // not sure if it should be like this when using option
+
+  // // find "old" sortby element and remove sortby
+  // const oldElement = document.querySelector(`[data-sort = '${settings.sortBy}']`);
+  // oldElement.classList.remove("sortby");
+
+  // //indicate active sort
+  // event.target.classList.add("sortby");
+
+  //toggle the direction
+  if (sortDir === "asc") {
+    event.target.dataset.sortDirection = "desc";
+  } else {
+    event.target.dataset.sortDirection = "asc";
+  }
+  console.log(`User selected ${sortBy}`);
+  setSort(sortBy, sortDir);
+}
+
+function setSort(sortBy, sortDir) {
+  settings.sortBy = sortBy;
+  settings.sortDir = sortDir;
+  buildList();
+}
+
+function sortList(sortedList) {
+  // let sortedList = allStudents;
+  let direction = 1;
+  if (settings.sortDir === "desc") {
+    direction = -1;
+  } else {
+    settings.direction = 1;
+  }
+
+  sortedList = allStudents.sort(sortByProperty);
+
+  // closure function to make it work in every situation
+  function sortByProperty(studentA, studentB) {
+    console.log(`sortby is ${settings.sortBy}`);
+    if (studentA[settings.sortBy] < studentB[settings.sortBy]) {
+      return -1;
+    } else {
+      return 1;
+    }
+  }
+  return sortedList;
+}
+
+/* ---------- DISPLAY LIST ---------- */
+
+function buildList() {
+  const currentList = filterList(allStudents);
+  const sortedList = sortList(currentList);
+
+  displayList(sortedList);
+}
+
+function displayList(students) {
+  document.querySelector("#studentList").innerHTML = "";
+  students.forEach(displayStudent);
+}
+
+function displayStudent(student) {
+  // console.log(student);
+
+  // grab template
+  const template = document.querySelector("template#studentCard").content;
+
+  // clone it
+  const copy = template.cloneNode(true);
+
+  // change content
+
+  //style
+  copy.querySelector(".student").style.backgroundColor = `var(--${student.house}-main-color)`;
+
+  // first name
+  copy.querySelector(".student .fullname").textContent = `${student.firstname}`;
+
+  // middlename
+  if (student.middlename) {
+    copy.querySelector(".student .middle").textContent = `${student.middlename}`;
+  }
+
+  // nickname
+  if (student.nickname) {
+    copy.querySelector(".student .nickname").textContent = `${student.nickname}`;
+  }
+
+  // lastname
+  copy.querySelector(".student .lastname").textContent = `${student.lastname}`;
+
+  // image
+  copy.querySelector(".faces").src = `img/${student.image}.png`;
+
+  // house
+  copy.querySelector(".house-crest > img").src = `img/${student.house}.png`;
+
+  // add eventlisteners
+  copy.querySelector(".student").addEventListener("click", settingModal);
+
+  function settingModal(event) {
+    openModal(student);
+  }
+
+  //grab parent
+  const parent = document.querySelector("#studentList");
+
+  //append
+  parent.appendChild(copy);
+
+  /* ------------- FUNCTION CLOSURE FOR POP UP ------------- */
+}
+
+/* ---------- POP UP  ---------- */
+
 function openModal(student) {
+  console.log(student.firstname);
+  // display pop up
   popUp.classList.remove("hidden");
 
+  // change content
+
+  //style
+  popUp.querySelector(".infoPopUp").style.backgroundColor = `var(--${student.house}-main-color)`;
+  popUp.querySelector(".infoPopUp").style.border = `13px solid var(--${student.house}-border-color)`;
+  // image
   popUp.querySelector(".facesPopUp").src = `img/${student.image}.png`;
+
+  // full name
   popUp.querySelector("h2").textContent = `${student.firstname} ${student.lastname}`;
+
+  // blood status
   popUp.querySelector(".blood-status").textContent = `${student.blood}`;
 
+  // house crest
   if (student.house === "Gryffindor") {
     popUp.querySelector(".crestPopUp > img").src = `img/${student.house}.png`;
     popUp.querySelector(".infoPopUp").classList.add("Gryffindor");
-  } else if (student.house === "Slytherin") {
+  }
+  if (student.house === "Slytherin") {
     popUp.querySelector(".crestPopUp > img").src = "img/Slytherin.png";
     popUp.querySelector(".infoPopUp").classList.add("Slytherin");
-  } else if (student.house === "Ravenclaw") {
+  }
+  if (student.house === "Ravenclaw") {
     popUp.querySelector(".crestPopUp > img").src = "img/Ravenclaw.png";
     popUp.querySelector(".infoPopUp").classList.add("Ravenclaw");
-  } else if (student.house === "Hufflepuff") {
+  }
+  if (student.house === "Hufflepuff") {
     popUp.querySelector(".crestPopUp > img").src = "img/Hufflepuff.png";
     popUp.querySelector(".infoPopUp").classList.add("Hufflepuff");
   }
+
+  // inquisitorial squad
+  // if (student.inquisitorial === true) {
+  //   popUp.querySelector(".inquisitor").textContent = "🌟";
+  // } else {
+  //   popUp.querySelector(".inquisitor").textContent = "☆";
+  // }
+
+  popUp.querySelector(".inquisitor").addEventListener("click", clickSquad);
+
+  function clickSquad() {
+    if (student.inquisitorial === true) {
+      popUp.querySelector(".inquisitor").textContent = "🌟";
+      student.inquisitorial = false;
+    } else {
+      popUp.querySelector(".inquisitor").textContent = "☆";
+      student.inquisitorial = true;
+    }
+  }
+
   popUp.querySelector("#close").addEventListener("click", function () {
     popUp.classList.add("hidden");
   });
+  buildList();
 }
 
 // function closeModal() {

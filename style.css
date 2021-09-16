@@ -19,6 +19,14 @@
   --forth-color: #123263;
   --font-primary: "Charm", cursive;
   --font-secondary: "Old Standard TT", serif;
+  --Gryffindor-main-color: #bb1b25;
+  --Gryffindor-border-color: #eac459;
+  --Slytherin-main-color: #545375;
+  --Slytherin-border-color: #45857c;
+  --Ravenclaw-main-color: #31568e;
+  --Ravenclaw-border-color: #c3deef;
+  --Hufflepuff-main-color: #3b4552;
+  --Hufflepuff-border-color: #fdef97;
 }
 
 /* GENERAL SETTINGS */
@@ -109,7 +117,7 @@ header nav ul li:hover {
   margin: 0 15em;
 }
 article.student {
-  box-shadow: 0 10px 20px rgba(71, 49, 49, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  /* box-shadow: 0 10px 20px rgba(71, 49, 49, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); */
   padding: 2rem;
   border-radius: 2%;
   margin: 3rem 0;
@@ -136,6 +144,7 @@ article.student .lastname {
 .faces {
   width: 150px;
   height: 150px;
+  clip-path: (0% 45% 0% 45% round 10px);
 }
 
 #searchBar {
@@ -258,26 +267,6 @@ label {
   align-items: center;
 }
 
-.Gryffindor {
-  background-color: #bb1b25;
-  border: 13px solid #eac459;
-}
-
-.Slytherin {
-  background-color: #545375;
-  border: 13px solid #45857c;
-}
-
-.Ravenclaw {
-  background-color: #31568e;
-  border: 13px solid #c3deef;
-}
-
-.Hufflepuff {
-  background-color: #3b4552;
-  border: 13px solid #fdef97;
-}
-
 #close {
   position: absolute;
   top: 0;
@@ -287,4 +276,8 @@ label {
   color: white;
   font-size: 1.4em;
   padding: 1em;
+}
+
+.inquisitor {
+  font-size: 3em;
 }
