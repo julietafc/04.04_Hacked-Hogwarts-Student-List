@@ -20,10 +20,13 @@
           <p>Total (number)</p>
         </div>
         <div class="displayOptions">
-          <input id="searchBar" name="searchBar" type="text" placeholder="Search for a student" />
+          <div class="searchwrapper">
+            <input id="searchBar" name="searchBar" type="text" placeholder="Search for a student" />
+          </div>
+         
           <div class="filter">
             <div class="filter1">
-            <select name="filter-list" id="filter-list">
+            <select name="filter-list" id="filter-list" data-filter="house">
               <option data-action="filter" data-filter="*" value="all">All houses</option>
               <option data-action="filter" data-filter="Slytherin" value="Slytherin">Slytherin</option>
               <option data-action="filter" data-filter="Hufflepuff" value="Hufflepuff">Hufflepuff</option>

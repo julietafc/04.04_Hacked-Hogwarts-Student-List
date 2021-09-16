@@ -4,16 +4,19 @@ window.addEventListener("load", start);
 
 let familyBlood;
 let popUp = document.querySelector(".popUpWrapper");
+const dropdown = document.querySelector("select");
 
 // settings objects for global variables
 const settings = {
-  filterBy: "all",
+  filter: "all",
   sortBy: "name",
   sortDir: "asc",
 };
 
 // set array for objects
 let allStudents = [];
+
+let filteredList = [];
 
 // objects template
 const Student = {
@@ -41,6 +44,7 @@ function selectedButton() {
   document.querySelectorAll(".sortBy select").forEach((select) => {
     select.addEventListener("change", selectSort);
   });
+  document.querySelector("#searchBar").addEventListener("input", searchBar);
 }
 
 function loadJson() {
@@ -195,11 +199,33 @@ function cleanResult(name) {
 
 /* ---------- FILTERING & SORTING ---------- */
 
+// function selectFilter() {
+//   if (dropdown.value == "All") {
+//     filteredList = allStudents;
+//     displayList(filteredList);
+//   } else {
+//     filteredList = allStudents.filter((student) => student.house === dropdown.value);
+//     displayList(filteredList);
+//   }
+// }
+
 function selectFilter(event) {
-  console.log(event.target);
-  const filter = event.target.value;
-  console.log(`User selected ${filter}`);
-  setFilter(filter);
+  if (event.target.value == "All") {
+    setFilter(filter);
+    //     displayList(filteredList);
+    //   }
+  } else {
+    filteredList = allStudents.filter((student) => student.house === dropdown.value);
+    displayList(filteredList);
+  }
+  // const filter = event.target.value;
+  // console.log(`User selected ${filter}`);
+  // setFilter(filter);
+
+  // console.log(event.target);
+  // const filter = event.target.value;
+  // console.log(`User selected ${filter}`);
+  // setFilter(filter);
 }
 
 function setFilter(filter) {
@@ -220,15 +246,6 @@ function filterList(filteredList) {
   } else if (settings.filterBy === "Gryffindor") {
     filteredList = allStudents.filter(isGryffindor);
   }
-
-  // blood filter
-  // if (filterBy === "pure") {
-  //   filteredList = allStudents.filter(isPure);
-  // } else if (filterBy === "half") {
-  //   filteredList = allStudents.filter(isHalf);
-  // } else if (filterBy === "plain") {
-  //   filteredList = allStudents.filter(isPlain);
-  // }
 
   return filteredList;
 }
@@ -428,6 +445,15 @@ function openModal(student) {
   });
   buildList();
 }
+
+/* ---------- SEARCH BAR ---------- */
+// function searchBar(e) {
+//   // console.log(e.target.value);
+//   const regex = e.target.value.toLowerCase();
+//   let newList = buildList();
+//   let searchList = newList.filter((student) => student.firstname.toLowerCase().includes(regex) || student.lastname.toLowerCase().includes(regex) || student.middlename.toLowerCase().includes(regex));
+//   buildList(searchList);
+// }
 
 // function closeModal() {
 //   document.querySelector(".popUpWrapper").classList.add("hidden");
