@@ -10,7 +10,6 @@ const characterList = document.getElementById("studentList");
 // settings objects for global variables
 const settings = {
   filter: "all",
-  filterCat: "",
   sortBy: "name",
   sortDir: "asc",
   category: "",
@@ -40,27 +39,16 @@ const Student = {
 
 function start() {
   // console.log("start");
-
   selectedButton();
   loadJson();
 }
 
 function selectedButton() {
-  document.querySelectorAll(".filter select").forEach((select) => {
-    select.addEventListener("change", selectFilter);
-  });
-  document.querySelectorAll(".sortBy select").forEach((select) => {
-    select.addEventListener("change", selectSort);
-  });
+  document.querySelectorAll("#filters select").forEach((option) => option.addEventListener("change", selectFilter));
 
-  /* ---------- CLOSURE FUNCTION FOR SEARCH BAR ---------- */
-  document.getElementById("searchBar").addEventListener("keyup", (e) => {
-    const searchString = e.target.value.toLowerCase();
-    const searchedStudents = allStudents.filter((student) => {
-      return student.firstname.toLowerCase().includes(searchString) || student.lastname.toLowerCase().includes(searchString) || student.house.toLowerCase().includes(searchString);
-    });
-    displayList(searchedStudents);
-  });
+  document.querySelectorAll("#sorting select").forEach((option) => option.addEventListener("change", selectSort));
+
+  document.querySelector("#searchBar").addEventListener("input", searchBar);
 }
 
 function loadJson() {
@@ -190,15 +178,21 @@ function getImage(lastname, firstname) {
 
 function getBloodType(lastname) {
   let blood;
-  if (familyBlood.half.includes(lastname)) {
-    blood = "Halfblood";
-  }
-  if (familyBlood.pure.includes(lastname)) {
-    blood = "Pureblood";
-  }
+
   if (lastname) {
     blood = "Muggleblood";
+
+    if (familyBlood.pure.includes(lastname)) {
+      blood = "Pureblood";
+    }
+
+    if (familyBlood.half.includes(lastname)) {
+      blood = "Halfblood";
+    }
+  } else {
+    blood = undefined;
   }
+
   return blood;
 }
 
@@ -216,7 +210,7 @@ function cleanResult(name) {
 /* ---------- FILTERING & SORTING ---------- */
 
 function selectFilter(event) {
-  const filter = document.querySelector(`#${event.target.id}`).value;
+  const filter = event.target.value;
   console.log(`User selected ${filter}`);
   setFilter(filter);
 }
@@ -227,8 +221,6 @@ function setFilter(filter) {
 }
 
 function filterList(filteredList) {
-  // let filteredList = allStudents;
-
   // houses filter
   if (settings.filter === "Slytherin") {
     filteredList = allStudents.filter(isSlytherin);
@@ -238,6 +230,22 @@ function filterList(filteredList) {
     filteredList = allStudents.filter(isRavenclaw);
   } else if (settings.filter === "Gryffindor") {
     filteredList = allStudents.filter(isGryffindor);
+  }
+
+  // blood filter
+  if (settings.filter === "Pureblood") {
+    filteredList = allStudents.filter(isPure);
+  } else if (settings.filter === "Halfblood") {
+    filteredList = allStudents.filter(isHalf);
+  } else if (settings.filter === "Muggleblood") {
+    filteredList = allStudents.filter(isPlain);
+  }
+
+  // // responsabilities filter
+  if (settings.filter === "inquisitor") {
+    filteredList = allStudents.filter(isInquisitor);
+  } else if (settings.filter === "prefect") {
+    filteredList = allStudents.filter(isPrefect);
   }
 
   return filteredList;
@@ -259,17 +267,44 @@ function isGryffindor(student) {
   return student.house === "Gryffindor";
 }
 
+function isPure(student) {
+  return student.blood === "Pureblood";
+}
+
+function isHalf(student) {
+  return student.blood === "Halfblood";
+}
+
+function isPlain(student) {
+  return student.blood === "Muggleblood";
+}
+
+function isInquisitor(student) {
+  return student.inquisitor === true;
+}
+
+function isPrefect(student) {
+  return student.prefect === true;
+}
+
 function selectSort(event) {
   const sortBy = event.target.value;
-  const sortDir = event.target.sortDirection; // not sure if it should be like this when using option
+  const sortDir = event.target.dataset.sortDirection;
 
-  //toggle the direction
+  // // find "old" sortby element, and remove .sortBy
+  // const oldElement = document.querySelector(`[data-sort='${settings.sortBy}']`);
+  // oldElement.classList.remove("sortby");
+
+  // // indicate active sort
+  // event.target.classList.add("sortby");
+
+  // toggle the direction!
   if (sortDir === "asc") {
     event.target.dataset.sortDirection = "desc";
   } else {
     event.target.dataset.sortDirection = "asc";
   }
-  console.log(`User selected ${sortBy}`);
+  console.log(`User selected ${sortBy} - ${sortDir}`);
   setSort(sortBy, sortDir);
 }
 
@@ -280,24 +315,24 @@ function setSort(sortBy, sortDir) {
 }
 
 function sortList(sortedList) {
-  // let sortedList = allStudents;
+  // let sortedList = allAnimals;
+  let direction = 1;
   if (settings.sortDir === "desc") {
     direction = -1;
   } else {
     settings.direction = 1;
   }
 
-  sortedList = allStudents.sort(sortByProperty);
+  sortedList = sortedList.sort(sortByProperty);
 
-  // closure function to make it work in every situation
   function sortByProperty(studentA, studentB) {
-    console.log(`sortby is ${settings.sortBy}`);
     if (studentA[settings.sortBy] < studentB[settings.sortBy]) {
-      return -1;
+      return -1 * direction;
     } else {
-      return 1;
+      return 1 * direction;
     }
   }
+
   return sortedList;
 }
 
@@ -436,31 +471,6 @@ function openModal(student) {
 
     buildList();
   }
-
-  // popUp.querySelector("#expelledBtn").addEventListener("click", clickExpelled);
-  // popUp.querySelector("#prefectBtn").addEventListener("click", clickPrefect);
-
-  // function clickPrefect() {
-  //   console.log("clickPrefect");
-  //   let btn = document.getElementById("prefectBtn");
-
-  //   if (btn.innerText === "Make Prefect") {
-  //     btn.innerText = "Revoke Prefect";
-  //   } else {
-  //     btn.innerText = "Revoke Prefect";
-  //   }
-  // }
-
-  // function clickExpelled(student) {
-  //   console.log("clickExpelled");
-  //   student.expelled = true;
-  //   student.inquisitor = false;
-  //   student.prefect = false;
-  //   buildList();
-  //   refreshPopUp();
-  //   openModal();
-  //   setTimeout(removePopUp, 800);
-  // }
 
   // prefect
   popUp.querySelector("[data-field=prefect]").dataset.prefect = student.prefect;
@@ -614,3 +624,13 @@ function openModal(student) {
 //     return meAsStudent;
 //   }
 // }
+
+/* ---------- SEARCH BAR ---------- */
+
+function searchBar(e) {
+  const searchString = e.target.value.toLowerCase();
+  const searchedStudents = allStudents.filter((student) => {
+    return student.firstname.toLowerCase().includes(searchString) || student.lastname.toLowerCase().includes(searchString) || student.house.toLowerCase().includes(searchString);
+  });
+  displayList(searchedStudents);
+}
