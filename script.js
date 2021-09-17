@@ -474,9 +474,6 @@ function openModal(student) {
   // blood status
   popUp.querySelector(".blood-status").textContent = `${student.blood}`;
 
-  // blood status
-  // popUp.querySelector(".inquisitor").textContent = `${student.inquisitor}`;
-
   // house crest
   if (student.house === "Gryffindor") {
     popUp.querySelector(".crestPopUp > img").src = `img/${student.house}.png`;
@@ -506,17 +503,29 @@ function openModal(student) {
   popUp.querySelector(".infoPopUp .inquisitor").addEventListener("click", clickInquisitor);
 
   function clickInquisitor() {
-    console.log("clickInquisitor");
-    if (student.inquisitor === true) {
-      popUp.querySelector(".infoPopUp .inquisitor").textContent = "☆";
-      student.inquisitor = false;
+    if (student.house === "Slytherin" || student.blood === "Pureblood") {
+      console.log("clickInquisitor");
+      if (student.inquisitor === true) {
+        popUp.querySelector(".infoPopUp .inquisitor").textContent = "☆";
+        student.inquisitor = false;
+      } else {
+        console.log("its false");
+        popUp.querySelector(".infoPopUp .inquisitor").textContent = "🌟";
+        student.inquisitor = true;
+      }
+
+      buildList();
     } else {
-      console.log("its false");
-      popUp.querySelector(".infoPopUp .inquisitor").textContent = "🌟";
-      student.inquisitor = true;
+      console.log("not allowed");
+      document.querySelector("#notallowed").classList.remove("hidden");
+      document.querySelector("#notallowed .closebutton").addEventListener("click", closeDialog);
     }
 
-    buildList();
+    function closeDialog() {
+      console.log("closeDialog");
+      document.querySelector("#notallowed").classList.add("hidden");
+      document.querySelector("#notallowed .closebutton").removeEventListener("click", closeDialog);
+    }
   }
 
   // prefect

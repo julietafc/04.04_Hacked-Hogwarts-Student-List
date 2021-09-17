@@ -79,7 +79,7 @@ header p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6em 16em 0 15em;
+  padding: 5em 16em 40px 15em;
 }
 
 .displayNumbers {
