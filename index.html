@@ -9,16 +9,11 @@
   </head>
   <body>
     <header>
-      <nav>
-        <h1>Hogwarts</h1>
-      </nav>
+        <h1 class="heading">Hogwarts</h1>
+        <p>Student list</p></div>
     </header>
     <main>
       <div class="mainWrapper">
-        <div class="heading">
-          <h2>All non expelled students</h2>
-          <p>Total (number)</p>
-        </div>
         <div class="displayOptions">
           <div id="searchWrapper">
             <input id="searchBar" name="searchBar" type="text" placeholder="Search for a student" />
@@ -53,6 +48,20 @@
               <option data-action="sort" data-sort-direction="asc" data-sort="lastname" value="lastname">Last Name</option>
             </select>
           </div>
+          </div>
+
+          <div class="displayNumbers">
+            <div class="line1">
+              <p>Displaying: <span class="currentNum"></span></p>
+            </div>
+            <div class="line2">
+              <p>Total: <span class="enrolledNum"></span></p>
+              <p>Expelled: <span class="expelledNum"></span></p>
+              <p>Gryffindor: <span class="gryfNum"></span></p>
+              <p>Hufflepuff: <span class="huffNum"></span></p>
+              <p>Ravenclaw: <span class="raveNum"></span></p>
+              <p>Slytherin: <span class="slytNum"></span></p>
+            </div>
           </div>
 
         </div>

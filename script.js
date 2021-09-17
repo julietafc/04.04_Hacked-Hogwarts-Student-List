@@ -338,6 +338,49 @@ function sortList(sortedList) {
 
 /* ---------- DISPLAY LIST ---------- */
 
+function numGryffindors(student) {
+  if (student.house === "Gryffindor") {
+    return true;
+  } else {
+    return false;
+  }
+}
+function numHufflepuffs(student) {
+  if (student.house === "Hufflepuff") {
+    return true;
+  } else {
+    return false;
+  }
+}
+function numRavenclaws(student) {
+  if (student.house === "Ravenclaw") {
+    return true;
+  } else {
+    return false;
+  }
+}
+function numSlytherins(student) {
+  if (student.house === "Slytherin") {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function setInfoLine() {
+  const totalStudents = allStudents.length;
+  //edit when I start expelling students so it updates
+  const expelledStudents = 0;
+  const enrolledStudents = totalStudents - expelledStudents;
+
+  document.querySelector(".enrolledNum").textContent = enrolledStudents;
+  document.querySelector(".expelledNum").textContent = expelledStudents;
+  document.querySelector(".gryfNum").textContent = allStudents.filter(numGryffindors).length;
+  document.querySelector(".huffNum").textContent = allStudents.filter(numHufflepuffs).length;
+  document.querySelector(".raveNum").textContent = allStudents.filter(numRavenclaws).length;
+  document.querySelector(".slytNum").textContent = allStudents.filter(numSlytherins).length;
+}
+
 function buildList() {
   const currentList = filterList(allStudents);
   const sortedList = sortList(currentList);
@@ -348,6 +391,10 @@ function buildList() {
 function displayList(students) {
   document.querySelector("#studentList").innerHTML = "";
   students.forEach(displayStudent);
+  //displaying the current student nums
+  setInfoLine();
+  //displaying the list length
+  document.querySelector(".displayNumbers span").textContent = students.length;
 }
 
 function displayStudent(student) {

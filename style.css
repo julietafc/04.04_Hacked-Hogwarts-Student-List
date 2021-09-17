@@ -43,38 +43,28 @@ main {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
 header {
-  height: 150px;
   background-color: var(--primary-color);
-}
-header nav {
+  color: var(--secondary-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 3em 6em;
+  padding: 3em 15em;
+  font-family: var(--font-secondary);
 }
 
-header nav h1 {
+header h1 {
   font-family: headings;
-  font-size: 5em;
+  font-size: 4.5em;
   color: var(--secondary-color);
   font-weight: 100;
 }
 
-header nav ul {
-  display: flex;
-}
-header nav ul li {
-  list-style: none;
-  margin-left: 3em;
-  font-size: 20px;
-  font-family: var(--font-secondary);
+header p {
+  font-size: 1.5em;
   text-transform: uppercase;
-  color: var(--secondary-color);
-}
-header nav ul li:hover {
-  text-decoration: underline;
-  font-weight: 600;
+  letter-spacing: 1.3px;
 }
 
 .mainWrapper {
@@ -83,23 +73,7 @@ header nav ul li:hover {
   align-items: center;
   justify-content: center;
 }
-.mainWrapper .heading {
-  margin-top: 4em;
-  text-align: center;
 
-  color: var(--primary-color);
-}
-
-.mainWrapper .heading h2 {
-  font-family: var(--font-primary);
-  font-weight: 400;
-  font-size: 4em;
-}
-
-.heading p {
-  font-family: var(--font-secondary);
-  font-size: 1.4em;
-}
 .mainWrapper .displayOptions {
   width: 100%;
   display: flex;
@@ -107,6 +81,31 @@ header nav ul li:hover {
   align-items: center;
   padding: 6em 16em 0 15em;
 }
+
+.displayNumbers {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin: 2em 0 -2em 0;
+}
+
+.displayNumbers .line1,
+.displayNumbers .line2 {
+  display: flex;
+  font-family: var(--font-secondary);
+  color: var(--primary-color);
+  text-transform: uppercase;
+}
+
+.displayNumbers .line2 p {
+  margin-left: 1em;
+}
+
+.displayNumbers .line1 span,
+.displayNumbers .line2 span {
+  font-size: 1.4em;
+}
+
 .listWrapper {
   width: 100%;
 }
