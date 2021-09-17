@@ -278,6 +278,12 @@ label {
   padding: 1em;
 }
 
-.inquisitor {
-  font-size: 3em;
+#inquisitor,
+#expelledBtn,
+#prefectBtn {
+  font-family: var(--font-secondary);
+  font-size: 1.1em;
+  padding: 0.4em;
+  background-color: var(--secondary-color);
+  border: none;
 }

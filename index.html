@@ -20,14 +20,14 @@
           <p>Total (number)</p>
         </div>
         <div class="displayOptions">
-          <div class="searchwrapper">
+          <div id="searchWrapper">
             <input id="searchBar" name="searchBar" type="text" placeholder="Search for a student" />
           </div>
          
           <div class="filter">
             <div class="filter1">
-            <select name="filter-list" id="filter-list" data-filter="house">
-              <option data-action="filter" data-filter="*" value="all">All houses</option>
+            <select name="filter-list" id="houseSelection">
+              <option data-action="filter" data-filter="*" value="all">House</option>
               <option data-action="filter" data-filter="Slytherin" value="Slytherin">Slytherin</option>
               <option data-action="filter" data-filter="Hufflepuff" value="Hufflepuff">Hufflepuff</option>
               <option data-action="filter" data-filter="ravenclaw" value="Ravenclaw">Ravenclaw</option>
@@ -35,25 +35,18 @@
             </select>
           </div>
           <div class="filter2">
-            <select name="filter-list" id="filter-list">
-              <option value="all">All Blood-status</option>
-              <option value="pure">Pure wizard</option>
-              <option value="half">Wizard/Muggle</option>
-              <option value="plain">Plain muggle</option>
+            <select name="filter-list"  id="bloodSelection">
+              <option value="all">Blood-status</option>
+              <option value="Pure wizard">Pure wizard</option>
+              <option value="Half blood">Half blood</option>
+              <option value="Plain muggle">Plain muggle</option>
             </select>
             </div>
             <div class="filter3">
-            <select name="filter-list" id="filter-list">
-              <option value="all">All responsabilities</option>
-              <option value="pure">Squad member</option>
-              <option value="half">Prefect</option>
-            </select>
-            </div>
-            <div class="filter4">
-            <select name="filter-list" id="filter-list">
-              <option value="all">All conditions</option>
-              <option value="pure">Not expelled</option>
-              <option value="half">Expelled</option>
+            <select name="filter-list"  id="responsabilitySelection">
+              <option value="all">Responsability</option>
+              <option value="inquisitor">Inquisitors</option>
+              <option value="prefect">Prefects</option>
             </select>
             </div>
           </div>
@@ -62,7 +55,6 @@
               <option data-sort-direction="asc" value="all">Sort by</option>
               <option data-action="sort" data-sort-direction="desc" data-sort="firstname" value="firstname">First Name</option>
               <option data-action="sort" data-sort-direction="asc" data-sort="lastname" value="lastname">Last Name</option>
-              <option data-action="sort" data-sort-direction="asc" data-sort="house" value="house">House</option>
             </select>
           </div>
           </div>
@@ -70,7 +62,6 @@
         </div>
         <div class="listWrapper">
           <div id="studentList">
-            <div id="studentPopUp"></div>
           </div>
         </div>
       </div>
@@ -92,12 +83,11 @@
       </div>
     </div>
       <div class="actions">
-        <button id="expellBtn">Expell</button>
-        <button id="prefectBtn">Make Prefect</button>
-        <button id="prefectRevokeBtn" class="hidden">Remove Prefect</button>
-        <div class="inquisitor">
-          ☆
-        </div>
+        <button  id="expelledBtn">Expell Student</button>
+        <button value="Expell Student" id="prefectBtn">Make Prefect</button>
+        <button id="inquisitor">
+          Make inquisitor
+        </button>
         <!-- <button id="inquisitorialRevokeBtn" class="hidden">
           Remove from the inquisitorial squad
         </button> -->
