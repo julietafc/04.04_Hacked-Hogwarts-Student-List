@@ -1,7 +1,10 @@
 /* ----------------------------------- IMPORTING FONTS -----------------------------------  */
+
 @import url("https://fonts.googleapis.com/css2?family=Abel&display=swap");
 
 @import url("https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Calligraffitti&display=swap");
 
 @font-face {
   font-family: headings;
@@ -10,23 +13,24 @@
 
 @import url("https://fonts.googleapis.com/css2?family=WindSong:wght@400;500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Charm:wght@400;700&display=swap");
-/* FONT, SIZES AND COLOR PALETTE ROOT */
 
 :root {
   --primary-color: #a34937;
-  --secondary-color: #d6b975;
-  --terciary-color: #ecdfbf;
+  --secondary-color: #a85;
+  --terciary-color: #e8d9af;
+  --modal-color: #aa8854;
   --forth-color: #123263;
   --font-primary: "Charm", cursive;
   --font-secondary: "Old Standard TT", serif;
-  --Gryffindor-main-color: #bb1b25;
-  --Gryffindor-border-color: #eac459;
-  --Slytherin-main-color: #545375;
-  --Slytherin-border-color: #45857c;
-  --Ravenclaw-main-color: #31568e;
-  --Ravenclaw-border-color: #c3deef;
-  --Hufflepuff-main-color: #3b4552;
-  --Hufflepuff-border-color: #fdef97;
+  --font-third: "Calligraffitti", cursive;
+  --Gryffindor-main-color: #c91016c8;
+  --Gryffindor-border-color: #ffc000;
+  --Slytherin-main-color: #27a147d3;
+  --Slytherin-border-color: #cdcdcd;
+  --Ravenclaw-main-color: #045882dc;
+  --Ravenclaw-border-color: #c09464;
+  --Hufflepuff-main-color: #282828d6;
+  --Hufflepuff-border-color: #ffd63a;
 }
 
 /* ----------------------------------- GENERAL SETTINGS -----------------------------------  */
@@ -37,7 +41,7 @@
   box-sizing: border-box;
 }
 
-main {
+html {
   background-image: url(img/bg.jpg);
   width: 100%;
   background-repeat: no-repeat;
@@ -45,7 +49,6 @@ main {
 }
 
 header {
-  background-color: var(--primary-color);
   color: var(--secondary-color);
   display: flex;
   justify-content: space-between;
@@ -92,9 +95,19 @@ header p {
 #searchBar {
   padding: 0.6em;
   padding-left: 1em;
-  border: 1px solid var(--primary-color);
+  border: 1px solid var(--secondary-color);
   font-family: var(--font-secondary);
-  font-size: 1em;
+  color: white;
+  font-size: 1.2em;
+  background-color: black;
+}
+
+#searchWrapper input {
+  color: var(--primary-color);
+}
+
+#filters select {
+  margin: 0 1em;
 }
 
 .filter {
@@ -108,24 +121,14 @@ header p {
   justify-content: center;
 }
 
-.filter1,
-.filter2,
-.filter3,
-.filter4 {
-  display: flex;
-  flex-direction: column;
-  padding: 0 0.3em;
-  justify-content: center;
-}
-
 select {
   font-size: 1.2em;
   padding: 0.5em;
   font-family: var(--font-secondary);
   border: none;
-  color: var(--primary-color);
+  color: white;
   background: none;
-  border-bottom: 1px solid var(--primary-color);
+  border-bottom: 1px solid var(--secondary-color);
 }
 
 label {
@@ -134,7 +137,6 @@ label {
 }
 
 #sortBy {
-  font-size: 1em;
   padding: 0.5em;
   font-family: var(--font-secondary);
   border: 1px solid var(--primary-color);
@@ -147,14 +149,14 @@ label {
   width: 100%;
   display: flex;
   justify-content: space-around;
-  margin: 2em 0 -2em 0;
+  margin: 5em 0 -2em 0;
 }
 
 .displayNumbers .line1,
 .displayNumbers .line2 {
   display: flex;
   font-family: var(--font-secondary);
-  color: var(--primary-color);
+  color: white;
   text-transform: uppercase;
 }
 
@@ -178,26 +180,32 @@ label {
   margin: 0 15em;
 }
 
+article {
+  min-height: 390px;
+}
+
 article.student {
-  /* box-shadow: 0 10px 20px rgba(71, 49, 49, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); */
-  padding: 2rem;
-  border-radius: 2%;
+  padding: 2.6rem;
+  border-radius: 6px;
   margin: 3rem 0;
   text-align: center;
   background-color: var(--forth-color);
   position: relative;
-
-  font-size: 1.5em;
+  font-size: 1.7em;
 }
 
 article.student p {
   color: white;
-  font-family: var(--font-primary);
+  font-family: var(--font-third);
 }
 
 article.student:hover {
   transform: scale(1.08);
   transition: 0.3s ease-in-out;
+}
+
+.student .fullname {
+  margin-top: 1.5em;
 }
 
 article.student .lastname {
@@ -219,8 +227,8 @@ article.student .lastname {
 
 .house-crest {
   position: absolute;
-  right: 20%;
-  bottom: 37%;
+  right: 18%;
+  bottom: 45%;
 }
 
 .house-crest img {
@@ -230,7 +238,7 @@ article.student .lastname {
 /* ----------------------------------- POP UP -----------------------------------  */
 
 .popUpWrapper {
-  background-color: rgba(17, 41, 80, 0.649);
+  background-color: rgb(15 25 41 / 93%);
   position: fixed;
   top: 0;
   left: 0;
@@ -243,6 +251,7 @@ article.student .lastname {
 
 .infoPopUp {
   background-color: rgb(255, 255, 255);
+  border-radius: 6px;
   width: 40%;
   padding: 3em 5em;
   display: flex;
@@ -253,8 +262,8 @@ article.student .lastname {
 
 .crestPopUp {
   position: absolute;
-  bottom: 38%;
-  left: 38%;
+  bottom: 42%;
+  left: 34%;
 }
 
 .crestPopUp img {
@@ -263,6 +272,18 @@ article.student .lastname {
 
 .namePopUp {
   text-align: center;
+  color: var(--terciary-color);
+}
+
+.namePopUp h2 {
+  font-family: var(--font-third);
+  font-size: 2.5em;
+}
+
+.namePopUp p {
+  font-size: 1.5em;
+  letter-spacing: 1.5px;
+  font-family: var(--font-secondary);
 }
 
 .actions {
@@ -283,14 +304,42 @@ article.student .lastname {
   align-items: center;
 }
 
-/* ----------------------------------- POP UP FEEDBACK -----------------------------------  */
+.moreInfo {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: var(--terciary-color);
+  font-size: 1.2em;
+  margin-top: 1.6em;
+}
 
-.inquisitor,
+#close {
+  position: absolute;
+  top: -1.5em;
+  right: -1.2em;
+  font-family: var(--font-secondary);
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 1.7em;
+  padding: 0.4em;
+  border-radius: 50%;
+  width: 2em;
+  height: 2em;
+}
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+}
 .prefect {
   font-family: var(--font-secondary);
-  font-size: 3em;
+  font-size: 1em;
   padding: 0.4em;
   border: none;
+}
+
+.actions .inquisitor {
+  font-size: 3em;
 }
 
 div[data-field="prefect"]::after {
@@ -303,6 +352,8 @@ div[data-field="prefect"][data-prefect="false"]::after {
   content: "🏆";
   filter: grayscale();
 }
+
+/* ----------------------------------- POP UP FEEDBACK -----------------------------------  */
 
 .modal {
   position: fixed;
@@ -318,10 +369,16 @@ div[data-field="prefect"][data-prefect="false"]::after {
 
 .dialog {
   box-shadow: 1px 1px 10px #333;
-  border-radius: 12px;
-  padding: 2em;
-  background-color: #eee;
+  border-radius: 6px;
+  padding: 3em;
+  text-align: center;
+  font-family: var(--font-secondary);
+  background-color: var(--primary-color);
+  color: white;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 button.closebutton {
@@ -329,21 +386,19 @@ button.closebutton {
   right: -1em;
   top: -1em;
   border-radius: 50%;
-  width: 2em;
-  height: 2em;
+  width: 4em;
+  height: 4em;
+  color: white;
+  background-color: var(--modal-color);
 }
 
 .dialog h1 {
   margin-top: 0;
+  margin-bottom: 0.6em;
+  font-size: 4em;
+  font-family: headings;
 }
 
-#close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-family: var(--font-secondary);
-  background-color: var(--primary-color);
-  color: white;
+.dialog p {
   font-size: 1.4em;
-  padding: 1em;
 }
