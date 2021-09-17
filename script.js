@@ -483,15 +483,76 @@ function openModal(student) {
     const numberOfPrefects = prefects.length;
 
     // issues > .firstname is correct?
-    const other = prefects.filter((student) => student.firstname === selectedStudent.firstname);
-    console.log(`there are ${numberOfPrefects}`);
-    console.log(`there other winner is ${other.firstname}`);
+    const other = prefects.filter((student) => student.house === selectedStudent.house).shift();
 
-    function removeOther(other) {}
+    // if there is another of the same type
+    if (other !== undefined) {
+      console.log("there can be only one winner of each type!");
+      removeOther(other);
+    } else if (numberOfPrefects >= 2) {
+      console.log("there can only be two winners");
+      removeAorB(prefects[0], prefects[1]);
+    } else {
+      makePrefect(selectedStudent);
+    }
 
-    makePrefect(selectedStudent);
+    // console.log(`there are ${numberOfPrefects}`);
 
-    function removeAorB(prefectA, prefectB) {}
+    function removeOther(other) {
+      //ask user to ignore or remove "other"
+      document.querySelector("#remove_other").classList.remove("hidden");
+      document.querySelector("#remove_other .closebutton").addEventListener("click", closeDialog);
+      document.querySelector("#remove_other  #removeother").addEventListener("click", clickRemoveOther);
+
+      // if ignore - do nothing
+      function closeDialog() {
+        console.log("closeDialog");
+        document.querySelector("#remove_other").classList.add("hidden");
+        document.querySelector("#remove_other .closebutton").removeEventListener("click", closeDialog);
+        document.querySelector("#remove_other  #removeother").removeEventListener("click", clickRemoveOther);
+      }
+
+      // if remove other:
+      function clickRemoveOther() {
+        removePrefect(other);
+        makePrefect(selectedStudent);
+        buildList();
+        closeDialog();
+      }
+    }
+
+    function removeAorB(prefectA, prefectB) {
+      // ask the user to ignore or remove A or B
+      document.querySelector("#remove_aorb").classList.remove("hidden");
+      document.querySelector("#remove_aorb .closebutton").addEventListener("click", closeDialog);
+      document.querySelector("#remove_aorb  #removea").addEventListener("click", clickRemoveA);
+      document.querySelector("#remove_aorb  #removeb").addEventListener("click", clickRemoveB);
+
+      // if ignore - do nothing
+      function closeDialog() {
+        document.querySelector("#remove_aorb").classList.add("hidden");
+        document.querySelector("#remove_aorb .closebutton").removeEventListener("click", closeDialog);
+        document.querySelector("#remove_aorb  #removea").removeEventListener("click", clickRemoveA);
+        document.querySelector("#remove_aorb  #removeb").removeEventListener("click", clickRemoveB);
+      }
+
+      function clickRemoveA() {
+        // if remove A:
+        removePrefect(prefectA);
+        makePrefect(selectedStudent);
+        buildList();
+        closeDialog();
+      }
+
+      //else - if removeB
+
+      function clickRemoveB() {
+        removePrefect(prefectB);
+        makePrefect(selectedStudent);
+        buildList();
+        closeDialog();
+      }
+    }
 
     function removePrefect(prefectStudent) {
       prefectStudent.winner = false;
@@ -506,6 +567,7 @@ function openModal(student) {
     popUp.classList.add("hidden");
 
     popUp.querySelector(".infoPopUp .inquisitor").removeEventListener("click", clickInquisitor);
+    popUp.querySelector("[data-field=prefect]").removeEventListener("click", clickPrefect);
   });
 }
 
