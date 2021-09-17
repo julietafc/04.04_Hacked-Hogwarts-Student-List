@@ -504,6 +504,8 @@ function openModal(student) {
       document.querySelector("#remove_other .closebutton").addEventListener("click", closeDialog);
       document.querySelector("#remove_other  #removeother").addEventListener("click", clickRemoveOther);
 
+      document.querySelector("#remove_other [data-field=otherPrefect]").textContent = `${other.firstname} ${other.lastname}`;
+
       // if ignore - do nothing
       function closeDialog() {
         console.log("closeDialog");
@@ -527,6 +529,12 @@ function openModal(student) {
       document.querySelector("#remove_aorb .closebutton").addEventListener("click", closeDialog);
       document.querySelector("#remove_aorb  #removea").addEventListener("click", clickRemoveA);
       document.querySelector("#remove_aorb  #removeb").addEventListener("click", clickRemoveB);
+
+      // show names on buttons
+      document.querySelector("#remove_aorb [data-field=prefectA]").textContent = `${prefectA.firstname} ${prefectA.lastname}`;
+      document.querySelector("#remove_aorb [data-field=prefectB]").textContent = `${prefectB.firstname} ${prefectB.lastname}`;
+
+      // popUp.querySelector("h2").textContent = `${student.firstname} ${student.lastname}`;
 
       // if ignore - do nothing
       function closeDialog() {
