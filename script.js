@@ -4,8 +4,6 @@ window.addEventListener("load", start);
 
 let familyBlood;
 let popUp = document.querySelector(".popUpWrapper");
-const dropdown = document.querySelector("select");
-const characterList = document.getElementById("studentList");
 
 // settings objects for global variables
 const settings = {
@@ -207,6 +205,16 @@ function cleanResult(name) {
   return cleanData;
 }
 
+/* ---------- SEARCH BAR ---------- */
+
+function searchBar(e) {
+  const searchString = e.target.value.toLowerCase();
+  const searchedStudents = allStudents.filter((student) => {
+    return student.firstname.toLowerCase().includes(searchString) || student.lastname.toLowerCase().includes(searchString) || student.house.toLowerCase().includes(searchString);
+  });
+  displayList(searchedStudents);
+}
+
 /* ---------- FILTERING & SORTING ---------- */
 
 function selectFilter(event) {
@@ -336,7 +344,7 @@ function sortList(sortedList) {
   return sortedList;
 }
 
-/* ---------- DISPLAY LIST ---------- */
+/* ---------- DISPLAY LIST & NUMBERS DISPLAY---------- */
 
 function numGryffindors(student) {
   if (student.house === "Gryffindor") {
@@ -453,7 +461,7 @@ function displayStudent(student) {
   /* ------------- FUNCTION CLOSURE FOR POP UP ------------- */
 }
 
-/* ---------- POP UP  ---------- */
+/* ---------- POP UP & INNER FUNCTIONS ---------- */
 
 function openModal(student) {
   console.log(student);
@@ -492,7 +500,7 @@ function openModal(student) {
     popUp.querySelector(".infoPopUp").classList.add("Hufflepuff");
   }
 
-  // inquisitorial squad
+  /* ---------- INQUISITORIAL SQUAD FUNCTION ---------- */
   console.log("Student inquisitor", student.inquisitor);
   if (student.inquisitor === true) {
     popUp.querySelector(".infoPopUp .inquisitor").textContent = "🌟";
@@ -528,7 +536,8 @@ function openModal(student) {
     }
   }
 
-  // prefect
+  /* ---------- PREFECT FUNCTION ---------- */
+
   popUp.querySelector("[data-field=prefect]").dataset.prefect = student.prefect;
   popUp.querySelector("[data-field=prefect]").addEventListener("click", clickPrefect);
 
@@ -682,11 +691,3 @@ function openModal(student) {
 // }
 
 /* ---------- SEARCH BAR ---------- */
-
-function searchBar(e) {
-  const searchString = e.target.value.toLowerCase();
-  const searchedStudents = allStudents.filter((student) => {
-    return student.firstname.toLowerCase().includes(searchString) || student.lastname.toLowerCase().includes(searchString) || student.house.toLowerCase().includes(searchString);
-  });
-  displayList(searchedStudents);
-}
