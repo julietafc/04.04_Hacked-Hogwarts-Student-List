@@ -144,7 +144,14 @@ article.student .lastname {
 .faces {
   width: 150px;
   height: 150px;
-  clip-path: (0% 45% 0% 45% round 10px);
+}
+
+.nofaces {
+  width: 150px;
+  height: 150px;
+  background-image: url(img/nofaces.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 #searchBar {
@@ -232,8 +239,8 @@ label {
 
 .crestPopUp {
   position: absolute;
-  bottom: 24%;
-  left: 40%;
+  bottom: 38%;
+  left: 38%;
 }
 .crestPopUp img {
   width: 95px;
@@ -278,12 +285,21 @@ label {
   padding: 1em;
 }
 
-#inquisitor,
-#expelledBtn,
-#prefectBtn {
+.inquisitor,
+.winner {
   font-family: var(--font-secondary);
-  font-size: 1.1em;
+  font-size: 3em;
   padding: 0.4em;
-  background-color: var(--secondary-color);
   border: none;
+}
+
+div[data-field="prefect"]::after {
+  font-size: 3em;
+  content: "🏆";
+}
+
+div[data-field="prefect"][data-prefect="false"]::after {
+  font-size: 3em;
+  content: "🏆";
+  filter: grayscale();
 }

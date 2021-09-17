@@ -22,7 +22,7 @@ let allStudents = [];
 
 let filteredList = [];
 
-let expelledStudents = [];
+let expelledList = [];
 
 // objects template
 const Student = {
@@ -43,7 +43,6 @@ function start() {
 
   selectedButton();
   loadJson();
-  searchBar();
 }
 
 function selectedButton() {
@@ -108,7 +107,7 @@ function prepareObjects(jsonObject) {
 
     allStudents.push(student);
   });
-
+  // buildList();
   displayList(allStudents);
   console.table(allStudents);
 }
@@ -217,17 +216,6 @@ function cleanResult(name) {
 /* ---------- FILTERING & SORTING ---------- */
 
 function selectFilter(event) {
-  // const filter = document.querySelector(`#${event.target.id}`).value
-  //   setFilter(filter);
-
-  // if (event.target.value == "All") {
-  //   setFilter(filter);
-  //   //     displayList(filteredList);
-  //   //   }
-  // } else {
-  //   filteredList = allStudents.filter((student) => student.house === dropdown.value);
-  //   displayList(filteredList);
-  // }
   const filter = document.querySelector(`#${event.target.id}`).value;
   console.log(`User selected ${filter}`);
   setFilter(filter);
@@ -274,13 +262,6 @@ function isGryffindor(student) {
 function selectSort(event) {
   const sortBy = event.target.value;
   const sortDir = event.target.sortDirection; // not sure if it should be like this when using option
-
-  // // find "old" sortby element and remove sortby
-  // const oldElement = document.querySelector(`[data-sort = '${settings.sortBy}']`);
-  // oldElement.classList.remove("sortby");
-
-  // //indicate active sort
-  // event.target.classList.add("sortby");
 
   //toggle the direction
   if (sortDir === "asc") {
@@ -335,7 +316,6 @@ function displayList(students) {
 }
 
 function displayStudent(student) {
-  let condition;
   // console.log(student);
 
   // grab template
@@ -345,12 +325,6 @@ function displayStudent(student) {
   const copy = template.cloneNode(true);
 
   // change content
-
-  if (settings.expelledList) {
-    condition = student.expelled;
-  } else {
-    condition = !student.expelled;
-  }
 
   //style
   copy.querySelector(".student").style.backgroundColor = `var(--${student.house}-main-color)`;
@@ -372,7 +346,11 @@ function displayStudent(student) {
   copy.querySelector(".student .lastname").textContent = `${student.lastname}`;
 
   // image
-  copy.querySelector(".faces").src = `img/${student.image}.png`;
+  if (student.image === undefined) {
+    copy.querySelector(".faces").classList.add("nofaces");
+  } else {
+    copy.querySelector(".faces").src = `img/${student.image}.png`;
+  }
 
   // house
   copy.querySelector(".house-crest > img").src = `img/${student.house}.png`;
@@ -396,6 +374,7 @@ function displayStudent(student) {
 /* ---------- POP UP  ---------- */
 
 function openModal(student) {
+  console.log(student);
   // display pop up
   popUp.classList.remove("hidden");
 
@@ -412,6 +391,9 @@ function openModal(student) {
 
   // blood status
   popUp.querySelector(".blood-status").textContent = `${student.blood}`;
+
+  // blood status
+  // popUp.querySelector(".inquisitor").textContent = `${student.inquisitor}`;
 
   // house crest
   if (student.house === "Gryffindor") {
@@ -432,44 +414,99 @@ function openModal(student) {
   }
 
   // inquisitorial squad
-  // if (student.inquisitorial === true) {
-  //   popUp.querySelector(".inquisitor").textContent = "🌟";
-  // } else {
-  //   popUp.querySelector(".inquisitor").textContent = "☆";
-  // }
+  console.log("Student inquisitor", student.inquisitor);
+  if (student.inquisitor === true) {
+    popUp.querySelector(".infoPopUp .inquisitor").textContent = "🌟";
+  } else {
+    popUp.querySelector(".infoPopUp .inquisitor").textContent = "☆";
+  }
 
-  popUp.querySelector("#inquisitor").addEventListener("click", clickInquisitor);
-  popUp.querySelector("#expelledBtn").addEventListener("click", clickExpelled);
-  popUp.querySelector("#prefectBtn").addEventListener("click", clickPrefect);
+  popUp.querySelector(".infoPopUp .inquisitor").addEventListener("click", clickInquisitor);
 
   function clickInquisitor() {
     console.log("clickInquisitor");
     if (student.inquisitor === true) {
+      popUp.querySelector(".infoPopUp .inquisitor").textContent = "☆";
       student.inquisitor = false;
     } else {
-      student.inquisitor = false;
+      console.log("its false");
+      popUp.querySelector(".infoPopUp .inquisitor").textContent = "🌟";
+      student.inquisitor = true;
     }
+
+    buildList();
   }
+
+  // popUp.querySelector("#expelledBtn").addEventListener("click", clickExpelled);
+  // popUp.querySelector("#prefectBtn").addEventListener("click", clickPrefect);
+
+  // function clickPrefect() {
+  //   console.log("clickPrefect");
+  //   let btn = document.getElementById("prefectBtn");
+
+  //   if (btn.innerText === "Make Prefect") {
+  //     btn.innerText = "Revoke Prefect";
+  //   } else {
+  //     btn.innerText = "Revoke Prefect";
+  //   }
+  // }
+
+  // function clickExpelled(student) {
+  //   console.log("clickExpelled");
+  //   student.expelled = true;
+  //   student.inquisitor = false;
+  //   student.prefect = false;
+  //   buildList();
+  //   refreshPopUp();
+  //   openModal();
+  //   setTimeout(removePopUp, 800);
+  // }
+
+  // prefect
+  popUp.querySelector("[data-field=prefect]").dataset.prefect = student.prefect;
+  popUp.querySelector("[data-field=prefect]").addEventListener("click", clickPrefect);
 
   function clickPrefect() {
-    console.log("clickPrefect");
-    let btn = document.getElementById("prefectBtn");
-
-    if (btn.innerText === "Make Prefect") {
-      btn.innerText = "Revoke Prefect";
+    if (student.prefect === true) {
+      student.prefect = false;
     } else {
-      btn.innerText = "Revoke Prefect";
+      tryToMakeAPrefect(student);
     }
+
+    buildList();
   }
 
-  function clickExpelled() {
-    console.log("clickExpelled");
+  function tryToMakeAPrefect(selectedStudent) {
+    //issues that I might have:
+    // everytime I close the new array is empty
+    const prefects = allStudents.filter((student) => student.prefect);
+    const numberOfPrefects = prefects.length;
+
+    // issues > .firstname is correct?
+    const other = prefects.filter((student) => student.firstname === selectedStudent.firstname);
+    console.log(`there are ${numberOfPrefects}`);
+    console.log(`there other winner is ${other.firstname}`);
+
+    function removeOther(other) {}
+
+    makePrefect(selectedStudent);
+
+    function removeAorB(prefectA, prefectB) {}
+
+    function removePrefect(prefectStudent) {
+      prefectStudent.winner = false;
+    }
+
+    function makePrefect(student) {
+      student.prefect = true;
+    }
   }
 
   popUp.querySelector("#close").addEventListener("click", function () {
     popUp.classList.add("hidden");
+
+    popUp.querySelector(".infoPopUp .inquisitor").removeEventListener("click", clickInquisitor);
   });
-  buildList();
 }
 
 /* ---------- HACKING FUNCTION ---------- */
