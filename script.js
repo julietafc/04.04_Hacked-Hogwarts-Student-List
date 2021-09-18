@@ -10,8 +10,6 @@ const settings = {
   filter: "all",
   sortBy: "name",
   sortDir: "asc",
-  category: "",
-  expelledList: false,
 };
 
 // set array for objects
