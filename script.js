@@ -44,6 +44,8 @@ function selectedButton() {
   document.querySelectorAll("#filters select").forEach((option) => option.addEventListener("change", selectFilter));
 
   document.querySelectorAll("#sorting select").forEach((option) => option.addEventListener("change", selectSort));
+
+  document.querySelector("#confundo").addEventListener("click", hackTheSystem);
 }
 
 function loadJson() {
@@ -700,9 +702,21 @@ function openModal(student) {
     popUp.querySelector(".actions .expell").addEventListener("click", clickExpell);
 
     function clickExpell() {
-      document.querySelector("#warning").classList.remove("hidden");
-      document.querySelector("#warning .closebutton").addEventListener("click", closeDialog);
-      document.querySelector("#warning #remove").addEventListener("click", doubleCheck);
+      if (student.firstname === "Julieta") {
+        document.querySelector("#noexpell").classList.remove("hidden");
+        document.querySelector("#warning").classList.add("hidden");
+        document.querySelector("#noexpell .closebutton").addEventListener("click", closeDialog);
+
+        function closeDialog() {
+          console.log("closeDialog");
+          document.querySelector("#noexpell").classList.add("hidden");
+          document.querySelector("#noexpell .closebutton").removeEventListener("click", closeDialog);
+        }
+      } else {
+        document.querySelector("#warning").classList.remove("hidden");
+        document.querySelector("#warning .closebutton").addEventListener("click", closeDialog);
+        document.querySelector("#warning #remove").addEventListener("click", doubleCheck);
+      }
     }
 
     function doubleCheck() {
@@ -737,8 +751,10 @@ function openModal(student) {
 /* ---------- HACKING FUNCTION ---------- */
 
 function hackTheSystem() {
+  document.querySelector("main").classList.add("confundo");
   addMeToList();
   randomizeBloodStatus();
+  buildList();
 }
 
 function addMeToList() {
@@ -747,15 +763,15 @@ function addMeToList() {
   buildList();
 }
 
-function createMe() {
+function myOwnObject() {
   return {
     firstname: "Julieta",
     lastname: "Fernandez",
     middlename: "",
     nickName: "Juli",
     house: "Hufflepuff",
-    prefect: false,
-    inquisitor: false,
+    prefect: true,
+    inquisitor: true,
     expelled: false,
     blood: "Halfblood",
   };
@@ -765,12 +781,12 @@ function randomizeBloodStatus() {
   allStudents.forEach((student) => {
     student.blood = getBloodType(student.lastname);
 
-    if ((student.blood = "half")) {
-      const types = ["pure", "muggle", "half", "pure", "muggle", "half"];
+    if (student.blood === "Halfblood") {
+      const types = ["Pureblood", "Muggleblood", "Halfblood", "Pureblood", "Muggleblood", "Halfblood"];
       const randomNumber = Math.floor(Math.random() * 6);
       student.blood = types[randomNumber];
     } else {
-      student.blood = "half";
+      student.blood = "Halfblood";
     }
   });
 }
