@@ -10,14 +10,13 @@ const settings = {
   filter: "all",
   sortBy: "name",
   sortDir: "asc",
+  expelledList: false,
 };
 
 // set array for objects
 let allStudents = [];
 
 let filteredList = [];
-
-let expelledList = [];
 
 // objects template
 const Student = {
@@ -40,11 +39,11 @@ function start() {
 }
 
 function selectedButton() {
+  document.querySelector("#searchBar").addEventListener("input", searchBar);
+
   document.querySelectorAll("#filters select").forEach((option) => option.addEventListener("change", selectFilter));
 
   document.querySelectorAll("#sorting select").forEach((option) => option.addEventListener("change", selectSort));
-
-  document.querySelector("#searchBar").addEventListener("input", searchBar);
 }
 
 function loadJson() {
@@ -254,6 +253,12 @@ function filterList(filteredList) {
     filteredList = allStudents.filter(isPrefect);
   }
 
+  if (settings.filter === "active") {
+    filteredList = allStudents.filter(isActive);
+  } else if (settings.filter === "expelled") {
+    filteredList = allStudents.filter(isExpelled);
+  }
+
   return filteredList;
 }
 
@@ -291,6 +296,14 @@ function isInquisitor(student) {
 
 function isPrefect(student) {
   return student.prefect === true;
+}
+
+function isActive(student) {
+  return student.expelled === false;
+}
+
+function isExpelled(student) {
+  return student.expelled === true;
 }
 
 function selectSort(event) {
@@ -474,6 +487,7 @@ function openModal(student) {
   //style
   popUp.querySelector(".infoPopUp").style.backgroundColor = `var(--${student.house}-main-color)`;
   popUp.querySelector(".infoPopUp").style.border = `13px solid var(--${student.house}-border-color)`;
+
   // image
   popUp.querySelector(".facesPopUp").src = `img/${student.image}.png`;
 
@@ -557,8 +571,6 @@ function openModal(student) {
       document.querySelector("#notallowed .closebutton").removeEventListener("click", closeDialog);
     }
   }
-
-  /* ---------- PREFECT FUNCTION ---------- */
 
   popUp.querySelector("[data-field=prefect]").dataset.prefect = student.prefect;
   popUp.querySelector(".responsabilities .prefect").classList.add("prefectlogo");
@@ -679,16 +691,40 @@ function openModal(student) {
     }
   }
 
+  /* ---------- EXPELL FUNCTION ---------- */
+
   if (student.expelled === true) {
     popUp.querySelector(".infoPopUp .expelled").classList.add("expelllogobeige");
   } else {
     popUp.querySelector(".infoPopUp .expelled").classList.add("expelllogo");
     popUp.querySelector(".actions .expell").addEventListener("click", clickExpell);
+
+    function clickExpell() {
+      document.querySelector("#warning").classList.remove("hidden");
+      document.querySelector("#warning .closebutton").addEventListener("click", closeDialog);
+      document.querySelector("#warning #remove").addEventListener("click", doubleCheck);
+    }
+
+    function doubleCheck() {
+      student.expelled = true;
+      student.prefect = false;
+      student.inquisitor = false;
+      popUp.classList.add("hidden");
+      popUp.querySelector(".infoPopUp .expelled").classList.remove("expelllogo");
+      popUp.querySelector(".infoPopUp .expelled").classList.add("expelllogobeige");
+      popUp.querySelector("#expellNow").classList.add("disabled");
+      document.querySelector("#warning").classList.add("hidden");
+      document.querySelector("#warning #remove").removeEventListener("click", doubleCheck);
+    }
+
+    function closeDialog() {
+      console.log("closeDialog");
+      document.querySelector("#warning").classList.add("hidden");
+      document.querySelector("#warning .closebutton").removeEventListener("click", closeDialog);
+    }
   }
 
-  function clickExpell() {
-    student.expelled = true;
-  }
+  /* ---------- CLOSE POP UP FUNCTION ---------- */
 
   popUp.querySelector("#close").addEventListener("click", function () {
     popUp.classList.add("hidden");
@@ -700,38 +736,41 @@ function openModal(student) {
 
 /* ---------- HACKING FUNCTION ---------- */
 
-// function hackTheSystem() {
-//   function createMe() {
-//     return {
-//       firstname: "Julieta",
-//       lastname: "Fernandez",
-//       middlename: "Laura",
-//       nickName: "Juli",
-//       house: "Hufflepuff",
-//       prefect: false,
-//       inquisitor: false,
-//       expelled: false,
-//       blood: "Halfblood",
-//     };
-//   }
+function hackTheSystem() {
+  addMeToList();
+  randomizeBloodStatus();
+}
 
-//   function addMeToList() {
-//     let meAsStudent = createMe();
-//     filteredList.push(meAsStudent);
-//   }
+function addMeToList() {
+  let meAsStudent = myOwnObject();
+  allStudents.push(meAsStudent);
+  buildList();
+}
 
-//   function randomizeBloodStatus(meAsStudent) {
-//     if (meAsStudent.bloodStatus === "Halfblood" || meAsStudent.bloodStatus === "Muggleblood") {
-//       meAsStudent.bloodStatus = "Pureblood";
-//     } else {
-//       let bloodArray = ["Pureblood", "Halfblood", "Muggleblood"];
-//       let randomBlood = Math.floor(Math.random() * Math.floor(3));
+function createMe() {
+  return {
+    firstname: "Julieta",
+    lastname: "Fernandez",
+    middlename: "",
+    nickName: "Juli",
+    house: "Hufflepuff",
+    prefect: false,
+    inquisitor: false,
+    expelled: false,
+    blood: "Halfblood",
+  };
+}
 
-//       meAsStudent.bloodStatus = bloodArray[randomBlood];
-//     }
+function randomizeBloodStatus() {
+  allStudents.forEach((student) => {
+    student.blood = getBloodType(student.lastname);
 
-//     return meAsStudent;
-//   }
-// }
-
-/* ---------- SEARCH BAR ---------- */
+    if ((student.blood = "half")) {
+      const types = ["pure", "muggle", "half", "pure", "muggle", "half"];
+      const randomNumber = Math.floor(Math.random() * 6);
+      student.blood = types[randomNumber];
+    } else {
+      student.blood = "half";
+    }
+  });
+}
