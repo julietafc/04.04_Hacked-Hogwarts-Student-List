@@ -260,37 +260,89 @@ article.student .lastname {
   position: relative;
 }
 
-.crestPopUp {
-  position: absolute;
-  bottom: 42%;
-  left: 34%;
-}
-
 .crestPopUp img {
-  width: 95px;
+  width: 90px;
 }
 
 .namePopUp {
-  text-align: center;
+  text-align: left;
   color: var(--terciary-color);
 }
 
-.namePopUp h2 {
-  font-family: var(--font-third);
-  font-size: 2.5em;
+.actions {
+  position: absolute;
+  bottom: 0;
+  background-color: var(--primary-color);
+  width: 100%;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  padding: 1.5em;
+  gap: 2em;
+}
+
+.actions button {
+  padding: 1em 1em;
+  background-color: var(--terciary-color);
+  font-family: var(--font-secondary);
+  color: var(--primary-color);
+  font-size: 1.1em;
+}
+
+.responsabilities {
+  margin-top: 2em;
+  align-items: center;
+  justify-content: space-evenly;
+  display: flex;
+  padding-bottom: 7em;
+  align-items: center;
+}
+
+.badge {
+  height: 80px;
+  width: 80px;
+  background-size: 80px;
+  background-repeat: no-repeat;
+}
+
+.inquisitorlogo {
+  background-image: url(img/inblack.svg);
+  filter: grayscale();
+  opacity: 0.1;
+}
+
+.inquisitorlogobeige {
+  background-image: url(img/inbeige.svg);
+}
+
+.prefectlogo {
+  background-image: url(img/prefectlogo.svg);
+  opacity: 0.1;
+}
+
+.prefectlogobeige {
+  background-image: url(img/prefectlogobeige.svg);
+}
+
+.expelllogo {
+  background-image: url(img/expelblack.svg);
+  opacity: 0.1;
+}
+
+.expelllogobeige {
+  background-image: url(img/expelbeige.svg);
 }
 
 .namePopUp p {
+  margin-top: 0.5em;
   font-size: 1.5em;
   letter-spacing: 1.5px;
   font-family: var(--font-secondary);
+  font-weight: 900;
 }
 
-.actions {
-  margin-top: 2em;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
+.namePopUp p span {
+  font-weight: 100;
 }
 
 .facesPopUp {
@@ -303,16 +355,6 @@ article.student .lastname {
   justify-content: space-around;
   align-items: center;
 }
-
-.moreInfo {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  color: var(--terciary-color);
-  font-size: 1.2em;
-  margin-top: 1.6em;
-}
-
 #close {
   position: absolute;
   top: -1.5em;
@@ -325,32 +367,6 @@ article.student .lastname {
   border-radius: 50%;
   width: 2em;
   height: 2em;
-}
-.actions {
-  display: flex;
-  justify-content: center;
-  gap: 2em;
-}
-.prefect {
-  font-family: var(--font-secondary);
-  font-size: 1em;
-  padding: 0.4em;
-  border: none;
-}
-
-.actions .inquisitor {
-  font-size: 3em;
-}
-
-div[data-field="prefect"]::after {
-  font-size: 3em;
-  content: "🏆";
-}
-
-div[data-field="prefect"][data-prefect="false"]::after {
-  font-size: 3em;
-  content: "🏆";
-  filter: grayscale();
 }
 
 /* ----------------------------------- POP UP FEEDBACK -----------------------------------  */
