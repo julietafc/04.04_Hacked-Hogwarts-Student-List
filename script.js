@@ -550,17 +550,25 @@ function openModal(student) {
   }
 
   /* ---------- INQUISITORIAL SQUAD FUNCTION ---------- */
-  console.log("Student inquisitor", student.inquisitor);
-  if (student.inquisitor === true) {
-    popUp.querySelector(".infoPopUp .inquisitor").classList.add("inquisitorlogobeige");
-    document.querySelector(".actions .inquisitor").textContent = "Remove Inquisitor";
-  } else {
+  // console.log("Student inquisitor", student.inquisitor);
+  // if (student.inquisitor === true) {
+  //   popUp.querySelector(".infoPopUp .inquisitor").classList.add("inquisitorlogobeige");
+  //   document.querySelector(".actions .inquisitor").textContent = "Remove Inquisitor";
+  // } else {
+  //   popUp.querySelector(".infoPopUp .inquisitor").classList.add("inquisitorlogo");
+  //   document.querySelector(".actions .inquisitor").textContent = "Add Inquisitor";
+  // }
+
+  if (student.inquisitor === false) {
     popUp.querySelector(".infoPopUp .inquisitor").classList.add("inquisitorlogo");
     document.querySelector(".actions .inquisitor").textContent = "Add Inquisitor";
-  }
 
-  popUp.querySelector(".infoPopUp .inquisitor").addEventListener("click", clickInquisitor);
-  popUp.querySelector(".actions .inquisitor").addEventListener("click", clickInquisitor);
+    if (settings.hackedSystem) {
+      popUp.querySelector(".actions .inquisitor").addEventListener("click", hackedInquisitor);
+    } else {
+      popUp.querySelector(".actions .inquisitor").addEventListener("click", clickInquisitor);
+    }
+  }
 
   function clickInquisitor() {
     if (student.house === "Slytherin" || student.blood === "Pureblood") {
@@ -593,9 +601,32 @@ function openModal(student) {
     }
   }
 
+  function hackedInquisitor() {
+    student.inquisitor = true;
+    popUp.querySelector(".infoPopUp .inquisitor").classList.remove("inquisitorlogo");
+    popUp.querySelector(".infoPopUp .inquisitor").classList.add("inquisitorlogobeige");
+    buildList();
+    setTimeout(removeFromSquad, 1500);
+  }
+
+  function removeFromSquad() {
+    student.inquisitor = false;
+    document.querySelector("#technicalIssues").classList.remove("hidden");
+    popUp.querySelector(".infoPopUp .inquisitor").classList.add("inquisitorlogo");
+    popUp.querySelector(".infoPopUp .inquisitor").classList.remove("inquisitorlogobeige");
+    document.querySelector("#technicalIssues .closebutton").addEventListener("click", closeDialog);
+    buildList();
+
+    function closeDialog() {
+      console.log("closeDialog");
+      document.querySelector("#technicalIssues").classList.add("hidden");
+      document.querySelector("#technicalIssues .closebutton").removeEventListener("click", closeDialog);
+    }
+  }
+
+  /* ---------- PREFECT FUNCTION ---------- */
   popUp.querySelector("[data-field=prefect]").dataset.prefect = student.prefect;
   popUp.querySelector(".responsabilities .prefect").classList.add("prefectlogo");
-  popUp.querySelector("[data-field=prefect]").addEventListener("click", clickPrefect);
   popUp.querySelector(".actions .prefect").addEventListener("click", clickPrefect);
 
   function clickPrefect() {
@@ -617,26 +648,21 @@ function openModal(student) {
     const prefects = allStudents.filter((student) => student.prefect);
     const numberOfPrefects = prefects.length;
 
-    // const prefectA = allStudents.filter((student) => student.firstname && student.lastname === prefect[0].firstname && prefect[0].lastname);
-
     // issues > .firstname is correct?
-    // const other = prefects.filter((student) => student.house === selectedStudent.house).shift();
+    const other = prefects.filter((student) => student.house === selectedStudent.house).shift();
 
     // if there is another of the same type
-
-    // if (other !== undefined) {
-    //   console.log("there can be only one winner of each type!");
-    //   removeOther(other);
-    // } else
-
-    if (numberOfPrefects >= 2) {
+    if (other !== undefined) {
+      console.log("there can be only one winner of each type!");
+      removeOther(other);
+    } else if (numberOfPrefects >= 2) {
       console.log("there can only be two winners");
       removeAorB(prefects[0], prefects[1]);
     } else {
       makePrefect(selectedStudent);
     }
 
-    console.log(`there are ${numberOfPrefects}`);
+    // console.log(`there are ${numberOfPrefects}`);
 
     function removeOther(other) {
       //ask user to ignore or remove "other"
@@ -775,12 +801,20 @@ function openModal(student) {
 /* ---------- HACKING FUNCTION ---------- */
 
 function hackTheSystem() {
-  console.log("The System Is Being Hacked!");
-  document.querySelector("#hacking").classList.remove("hidden");
-  addMeToList();
-  randomizeBloodStatus();
-  buildList();
-  document.querySelector("#hacking").removeEventListener("click", hackTheSystem);
+  if (!settings.hackedSystem) {
+    document.querySelector("#confundoAnimation").classList.add("hidden");
+    document.querySelector("#confundoAnimation").addEventListener("animationend", () => {
+      document.querySelector("#confundoAnimation").remove();
+    });
+    console.log("The System Is Being Hacked!");
+    document.querySelector("#confundoAnimation").classList.remove("hidden");
+    document.querySelector("#confundoAnimation").classList.add("active");
+    settings.hackedSystem = true;
+    addMeToList();
+    randomizeBloodStatus();
+    buildList();
+    document.querySelector("#hacking").removeEventListener("click", hackTheSystem);
+  }
 }
 
 function addMeToList() {
