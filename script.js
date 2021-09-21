@@ -624,10 +624,18 @@ function openModal(student) {
     }
   }
 
-  /* ---------- PREFECT FUNCTION ---------- */
-  popUp.querySelector("[data-field=prefect]").dataset.prefect = student.prefect;
-  popUp.querySelector(".responsabilities .prefect").classList.add("prefectlogo");
-  popUp.querySelector(".actions .prefect").addEventListener("click", clickPrefect);
+  /* --------------------  PREFECT FUNCTION -------------------- */
+
+  if (student.prefect === true) {
+    popUp.querySelector(".responsabilities .prefect").classList.remove("prefectlogo");
+    popUp.querySelector(".responsabilities .prefect").classList.add("prefectlogobeige");
+    document.querySelector(".actions .prefect").textContent = "Remove Prefect";
+  } else {
+    popUp.querySelector("[data-field=prefect]").dataset.prefect = student.prefect;
+    popUp.querySelector(".responsabilities .prefect").classList.add("prefectlogo");
+    popUp.querySelector(".responsabilities .prefect").classList.remove("prefectlogobeige");
+    popUp.querySelector(".actions .prefect").addEventListener("click", clickPrefect);
+  }
 
   function clickPrefect() {
     if (student.prefect === true) {
@@ -636,59 +644,22 @@ function openModal(student) {
       student.prefect = false;
       document.querySelector(".actions .prefect").textContent = "Add Prefect";
     } else {
-      tryToMakeAPrefect(student);
+      tryToMakePrefect(student);
     }
 
     buildList();
   }
 
-  function tryToMakeAPrefect(selectedStudent) {
-    //issues that I might have:
-    // everytime I close the new array is empty
-    const prefects = allStudents.filter((student) => student.prefect);
-    const numberOfPrefects = prefects.length;
+  function tryToMakePrefect(selectedStudent) {
+    const studentsPerHouse = allStudents.filter((student) => student.house === selectedStudent.house);
+    const prefectsPerHouse = studentsPerHouse.filter((student) => student.prefect);
+    const numberOfPrefects = prefectsPerHouse.length;
 
-    // issues > .firstname is correct?
-    const other = prefects.filter((student) => student.house === selectedStudent.house).shift();
-
-    // if there is another of the same type
-    if (other !== undefined) {
-      console.log("there can be only one winner of each type!");
-      removeOther(other);
-    } else if (numberOfPrefects >= 2) {
+    if (numberOfPrefects >= 2) {
       console.log("there can only be two winners");
-      removeAorB(prefects[0], prefects[1]);
+      removeAorB(prefectsPerHouse[0], prefectsPerHouse[1]);
     } else {
       makePrefect(selectedStudent);
-    }
-
-    // console.log(`there are ${numberOfPrefects}`);
-
-    function removeOther(other) {
-      //ask user to ignore or remove "other"
-      document.querySelector("#remove_other").classList.remove("hidden");
-      popUp.querySelector(".responsabilities .prefect").classList.remove("prefectlogobeige");
-      popUp.querySelector(".responsabilities .prefect").classList.add("prefectlogo");
-      document.querySelector("#remove_other .closebutton").addEventListener("click", closeDialog);
-      document.querySelector("#remove_other  #removeother").addEventListener("click", clickRemoveOther);
-
-      document.querySelector("#remove_other [data-field=otherPrefect]").textContent = `${other.firstname} ${other.lastname}`;
-
-      // if ignore - do nothing
-      function closeDialog() {
-        console.log("closeDialog");
-        document.querySelector("#remove_other").classList.add("hidden");
-        document.querySelector("#remove_other .closebutton").removeEventListener("click", closeDialog);
-        document.querySelector("#remove_other  #removeother").removeEventListener("click", clickRemoveOther);
-      }
-
-      // if remove other:
-      function clickRemoveOther() {
-        removePrefect(other);
-        makePrefect(selectedStudent);
-        buildList();
-        closeDialog();
-      }
     }
 
     function removeAorB(prefectA, prefectB) {
@@ -701,8 +672,6 @@ function openModal(student) {
       // show names on buttons
       document.querySelector("#remove_aorb [data-field=prefectA]").textContent = `${prefectA.firstname} ${prefectA.lastname}`;
       document.querySelector("#remove_aorb [data-field=prefectB]").textContent = `${prefectB.firstname} ${prefectB.lastname}`;
-
-      // popUp.querySelector("h2").textContent = `${student.firstname} ${student.lastname}`;
 
       // if ignore - do nothing
       function closeDialog() {
@@ -730,17 +699,108 @@ function openModal(student) {
     }
 
     function removePrefect(prefectStudent) {
-      popUp.querySelector(".responsabilities .prefect").classList.add("prefectlogo");
-      popUp.querySelector(".responsabilities .prefect").classList.remove("prefectlogobeige");
-      prefectStudent.winner = false;
+      document.querySelector(".responsabilities .prefect").classList.add("prefectlogo");
+      document.querySelector(".responsabilities .prefect").classList.remove("prefectlogobeige");
+      prefectStudent.prefect = false;
     }
 
-    function makePrefect(student) {
-      popUp.querySelector(".responsabilities .prefect").classList.add("prefectlogobeige");
-      popUp.querySelector(".responsabilities .prefect").classList.remove("prefectlogo");
+    function makePrefect(selectedStudent) {
+      document.querySelector(".responsabilities .prefect").classList.add("prefectlogobeige");
+      document.querySelector(".responsabilities .prefect").classList.remove("prefectlogo");
       document.querySelector(".actions .prefect").textContent = "Remove Prefect";
-      student.prefect = true;
+      selectedStudent.prefect = true;
     }
+
+    // if there is another of the same type
+    // if (other !== undefined) {
+    //   console.log("there can be only one winner of each type!");
+    //   removeOther(other);
+    // } else if (numberOfPrefects >= 2) {
+    //   console.log("there can only be two winners");
+    //   removeAorB(prefects[0], prefects[1]);
+    // } else {
+    //   makePrefect(selectedStudent);
+    // }
+
+    // console.log(`there are ${numberOfPrefects}`);
+
+    // function removeOther(other) {
+    //   //ask user to ignore or remove "other"
+    //   document.querySelector("#remove_other").classList.remove("hidden");
+    //   popUp.querySelector(".responsabilities .prefect").classList.remove("prefectlogobeige");
+    //   popUp.querySelector(".responsabilities .prefect").classList.add("prefectlogo");
+    //   document.querySelector("#remove_other .closebutton").addEventListener("click", closeDialog);
+    //   document.querySelector("#remove_other  #removeother").addEventListener("click", clickRemoveOther);
+
+    //   document.querySelector("#remove_other [data-field=otherPrefect]").textContent = `${other.firstname} ${other.lastname}`;
+
+    //   // if ignore - do nothing
+    //   function closeDialog() {
+    //     console.log("closeDialog");
+    //     document.querySelector("#remove_other").classList.add("hidden");
+    //     document.querySelector("#remove_other .closebutton").removeEventListener("click", closeDialog);
+    //     document.querySelector("#remove_other  #removeother").removeEventListener("click", clickRemoveOther);
+    //   }
+
+    //   // if remove other:
+    //   function clickRemoveOther() {
+    //     removePrefect(other);
+    //     makePrefect(selectedStudent);
+    //     buildList();
+    //     closeDialog();
+    //   }
+    // }
+
+    // function removeAorB(prefectA, prefectB) {
+    //   // ask the user to ignore or remove A or B
+    //   document.querySelector("#remove_aorb").classList.remove("hidden");
+    //   document.querySelector("#remove_aorb .closebutton").addEventListener("click", closeDialog);
+    //   document.querySelector("#remove_aorb  #removea").addEventListener("click", clickRemoveA);
+    //   document.querySelector("#remove_aorb  #removeb").addEventListener("click", clickRemoveB);
+
+    //   // show names on buttons
+    //   document.querySelector("#remove_aorb [data-field=prefectA]").textContent = `${prefectA.firstname} ${prefectA.lastname}`;
+    //   document.querySelector("#remove_aorb [data-field=prefectB]").textContent = `${prefectB.firstname} ${prefectB.lastname}`;
+
+    //   // popUp.querySelector("h2").textContent = `${student.firstname} ${student.lastname}`;
+
+    //   // if ignore - do nothing
+    //   function closeDialog() {
+    //     document.querySelector("#remove_aorb").classList.add("hidden");
+    //     document.querySelector("#remove_aorb .closebutton").removeEventListener("click", closeDialog);
+    //     document.querySelector("#remove_aorb  #removea").removeEventListener("click", clickRemoveA);
+    //     document.querySelector("#remove_aorb  #removeb").removeEventListener("click", clickRemoveB);
+    //   }
+
+    //   function clickRemoveA() {
+    //     // if remove A:
+    //     removePrefect(prefectA);
+    //     makePrefect(selectedStudent);
+    //     buildList();
+    //     closeDialog();
+    //   }
+
+    //   //else - if removeB
+    //   function clickRemoveB() {
+    //     removePrefect(prefectB);
+    //     makePrefect(selectedStudent);
+    //     buildList();
+    //     closeDialog();
+    //   }
+    // }
+
+    // function removePrefect(prefectStudent) {
+    //   popUp.querySelector(".responsabilities .prefect").classList.add("prefectlogo");
+    //   popUp.querySelector(".responsabilities .prefect").classList.remove("prefectlogobeige");
+    //   prefectStudent.winner = false;
+    // }
+
+    // function makePrefect(student) {
+    //   popUp.querySelector(".responsabilities .prefect").classList.add("prefectlogobeige");
+    //   popUp.querySelector(".responsabilities .prefect").classList.remove("prefectlogo");
+    //   document.querySelector(".actions .prefect").textContent = "Remove Prefect";
+    //   student.prefect = true;
+    // }
   }
 
   /* ---------- EXPELL FUNCTION ---------- */
@@ -793,8 +853,9 @@ function openModal(student) {
   popUp.querySelector("#close").addEventListener("click", function () {
     popUp.classList.add("hidden");
 
-    popUp.querySelector(".infoPopUp .inquisitor").removeEventListener("click", clickInquisitor);
-    popUp.querySelector("[data-field=prefect]").removeEventListener("click", clickPrefect);
+    popUp.querySelector(".actions .inquisitor").removeEventListener("click", clickInquisitor);
+    popUp.querySelector(".actions .prefect").removeEventListener("click", clickPrefect);
+    // popUp.querySelector(".actions .expell").removeEventListener("click", clickExpell);
   });
 }
 
