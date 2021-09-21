@@ -11,6 +11,7 @@ const settings = {
   sortBy: "name",
   sortDir: "asc",
   expelledList: false,
+  hackedSystem: false,
 };
 
 // set array for objects
@@ -45,7 +46,7 @@ function selectedButton() {
 
   document.querySelectorAll("#sorting select").forEach((option) => option.addEventListener("change", selectSort));
 
-  document.querySelector("#confundo").addEventListener("click", hackTheSystem);
+  document.querySelector("#hacking").addEventListener("click", hackTheSystem);
 }
 
 function loadJson() {
@@ -265,46 +266,57 @@ function filterList(filteredList) {
 }
 
 function isSlytherin(student) {
+  document.querySelector("#displayHeadings").textContent = "Slytherin Members";
   return student.house === "Slytherin";
 }
 
 function isHufflepuff(student) {
+  document.querySelector("#displayHeadings").textContent = "Hufflepuff Members";
   return student.house === "Hufflepuff";
 }
 
 function isRavenclaw(student) {
+  document.querySelector("#displayHeadings").textContent = "Ravenclaw Members";
   return student.house === "Ravenclaw";
 }
 
 function isGryffindor(student) {
+  document.querySelector("#displayHeadings").textContent = "Gryffindor members";
   return student.house === "Gryffindor";
 }
 
 function isPure(student) {
+  document.querySelector("#displayHeadings").textContent = "Pure blood Students";
   return student.blood === "Pureblood";
 }
 
 function isHalf(student) {
+  document.querySelector("#displayHeadings").textContent = "Half blood students";
   return student.blood === "Halfblood";
 }
 
 function isPlain(student) {
+  document.querySelector("#displayHeadings").textContent = "Muggle blood students";
   return student.blood === "Muggleblood";
 }
 
 function isInquisitor(student) {
+  document.querySelector("#displayHeadings").textContent = "Inquisitorial Squad Members";
   return student.inquisitor === true;
 }
 
 function isPrefect(student) {
+  document.querySelector("#displayHeadings").textContent = "Prefect Students";
   return student.prefect === true;
 }
 
 function isActive(student) {
+  document.querySelector("#displayHeadings").textContent = "Enrolled Students";
   return student.expelled === false;
 }
 
 function isExpelled(student) {
+  document.querySelector("#displayHeadings").textContent = "Expelled Students";
   return student.expelled === true;
 }
 
@@ -406,6 +418,9 @@ function setInfoLine() {
 }
 
 function buildList() {
+  if (settings.hackedSystem) {
+    randomizeBloodStatus();
+  }
   const currentList = filterList(allStudents);
   const sortedList = sortList(currentList);
 
@@ -571,6 +586,10 @@ function openModal(student) {
       console.log("closeDialog");
       document.querySelector("#notallowed").classList.add("hidden");
       document.querySelector("#notallowed .closebutton").removeEventListener("click", closeDialog);
+    }
+
+    if (settings.hackedSystem) {
+      student.inquisitor = false;
     }
   }
 
@@ -751,10 +770,12 @@ function openModal(student) {
 /* ---------- HACKING FUNCTION ---------- */
 
 function hackTheSystem() {
-  document.querySelector("main").classList.add("confundo");
+  console.log("The System Is Being Hacked!");
+  document.querySelector("#hacking").classList.remove("hidden");
   addMeToList();
   randomizeBloodStatus();
   buildList();
+  document.querySelector("#hacking").removeEventListener("click", hackTheSystem);
 }
 
 function addMeToList() {
