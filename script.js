@@ -153,21 +153,22 @@ function getLastName(fullname) {
 }
 
 function getImage(lastname, firstname) {
+  let imgSrc;
   if (lastname) {
     const lastnameLower = lastname.toLowerCase();
     const firstnameLower = firstname.toLowerCase();
     const initialFirstName = firstname.slice(0, 1).toLowerCase();
     if (lastname === "Patil") {
-      const imgSrc = `${lastnameLower}_${firstnameLower}`;
+      imgSrc = `${lastnameLower}_${firstnameLower}`;
       console.log(imgSrc);
       return imgSrc;
     } else if (lastname.includes("-") === true) {
       const afterHyphen = lastname.slice(lastname.indexOf("-") + 1);
-      const imgSrc = `${afterHyphen}_${initialFirstName}`;
+      imgSrc = `${afterHyphen}_${initialFirstName}`;
       console.log(imgSrc);
       return imgSrc;
     } else {
-      const imgSrc = `${lastnameLower}_${initialFirstName}`;
+      imgSrc = `${lastnameLower}_${initialFirstName}`;
       console.log(imgSrc);
       return imgSrc;
     }
@@ -434,7 +435,7 @@ function displayStudent(student) {
 
   // image
   if (student.image === undefined) {
-    copy.querySelector(".faces").classList.add("nofaces");
+    copy.querySelector(".faces").src = `img/undefined.png`;
   } else {
     copy.querySelector(".faces").src = `img/${student.image}.png`;
   }
@@ -860,6 +861,7 @@ function myOwnObject() {
     inquisitor: false,
     expelled: false,
     blood: "Halfblood",
+    imgSrc: "",
   };
 }
 
