@@ -371,50 +371,16 @@ function sortList(sortedList) {
 
 /* ---------- DISPLAY LIST & NUMBERS DISPLAY---------- */
 
-function numGryffindors(student) {
-  if (student.house === "Gryffindor") {
-    return true;
-  } else {
-    return false;
-  }
-}
+function displayCounts() {
+  const activeStudents = allStudents.filter((student) => !student.expelled).length;
+  const expelledStudents = allStudents.filter((student) => student.expelled).length;
 
-function numHufflepuffs(student) {
-  if (student.house === "Hufflepuff") {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function numRavenclaws(student) {
-  if (student.house === "Ravenclaw") {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function numSlytherins(student) {
-  if (student.house === "Slytherin") {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function setInfoLine() {
-  const totalStudents = allStudents.length;
-  //edit when I start expelling students so it updates
-  const expelledStudents = 0;
-  const enrolledStudents = totalStudents - expelledStudents;
-
-  document.querySelector(".enrolledNum").textContent = enrolledStudents;
+  document.querySelector(".enrolledNum").textContent = activeStudents;
   document.querySelector(".expelledNum").textContent = expelledStudents;
-  document.querySelector(".gryfNum").textContent = allStudents.filter(numGryffindors).length;
-  document.querySelector(".huffNum").textContent = allStudents.filter(numHufflepuffs).length;
-  document.querySelector(".raveNum").textContent = allStudents.filter(numRavenclaws).length;
-  document.querySelector(".slytNum").textContent = allStudents.filter(numSlytherins).length;
+  document.querySelector(".gryfNum").textContent = allStudents.filter((student) => student.house === "Gryffindor").length;
+  document.querySelector(".huffNum").textContent = allStudents.filter((student) => student.house === "Hufflepuff").length;
+  document.querySelector(".raveNum").textContent = allStudents.filter((student) => student.house === "Ravenclaw").length;
+  document.querySelector(".slytNum").textContent = allStudents.filter((student) => student.house === "Slytherin").length;
 }
 
 function buildList() {
@@ -431,7 +397,7 @@ function displayList(students) {
   document.querySelector("#studentList").innerHTML = "";
   students.forEach(displayStudent);
   //displaying the current student nums
-  setInfoLine();
+  displayCounts();
   //displaying the list length
   document.querySelector(".displayNumbers span").textContent = students.length;
 }
