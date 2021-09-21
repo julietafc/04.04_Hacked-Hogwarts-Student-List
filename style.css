@@ -20,9 +20,7 @@
   --terciary-color: #e8d9af;
   --modal-color: #aa8854;
   --forth-color: #123263;
-  --font-primary: "Charm", cursive;
   --font-secondary: "Old Standard TT", serif;
-  --font-third: "Calligraffitti", cursive;
   --Gryffindor-main-color: #c91016c8;
   --Gryffindor-border-color: #ffc000;
   --Slytherin-main-color: #27a147d3;
@@ -384,11 +382,12 @@ article.student .lastname {
   position: absolute;
   top: -1.5em;
   right: -1.2em;
-  font-family: var(--font-secondary);
+  font-family: var(--font-primary);
   background-color: var(--primary-color);
   color: white;
   font-size: 1.7em;
   padding: 0.4em;
+  padding-left: 0.6em;
   border-radius: 50%;
   width: 2em;
   height: 2em;
@@ -460,6 +459,7 @@ button.closebutton {
 
 .sidebyside {
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 
