@@ -656,7 +656,6 @@ function openModal(student) {
     const numberOfPrefects = prefectsPerHouse.length;
 
     if (numberOfPrefects >= 2) {
-      console.log("there can only be two winners");
       removeAorB(prefectsPerHouse[0], prefectsPerHouse[1]);
     } else {
       makePrefect(selectedStudent);

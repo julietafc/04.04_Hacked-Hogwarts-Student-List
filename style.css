@@ -442,6 +442,25 @@ button.closebutton {
 
 .dialog p {
   font-size: 1.4em;
+  margin-bottom: 1em;
+}
+
+#removea,
+#removeb,
+#remove {
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  font-size: 1.3em;
+  font-family: var(--font-secondary);
+  margin-top: 1em;
+  max-width: 100%;
+  padding: 1em 2em;
+}
+
+.sidebyside {
+  display: flex;
+  justify-content: center;
 }
 
 /* ----------------------------------- HACKING THE SYSTEM -----------------------------------  */
