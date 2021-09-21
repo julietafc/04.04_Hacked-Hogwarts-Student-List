@@ -617,21 +617,26 @@ function openModal(student) {
     const prefects = allStudents.filter((student) => student.prefect);
     const numberOfPrefects = prefects.length;
 
+    // const prefectA = allStudents.filter((student) => student.firstname && student.lastname === prefect[0].firstname && prefect[0].lastname);
+
     // issues > .firstname is correct?
-    const other = prefects.filter((student) => student.house === selectedStudent.house).shift();
+    // const other = prefects.filter((student) => student.house === selectedStudent.house).shift();
 
     // if there is another of the same type
-    if (other !== undefined) {
-      console.log("there can be only one winner of each type!");
-      removeOther(other);
-    } else if (numberOfPrefects >= 2) {
+
+    // if (other !== undefined) {
+    //   console.log("there can be only one winner of each type!");
+    //   removeOther(other);
+    // } else
+
+    if (numberOfPrefects >= 2) {
       console.log("there can only be two winners");
       removeAorB(prefects[0], prefects[1]);
     } else {
       makePrefect(selectedStudent);
     }
 
-    // console.log(`there are ${numberOfPrefects}`);
+    console.log(`there are ${numberOfPrefects}`);
 
     function removeOther(other) {
       //ask user to ignore or remove "other"
@@ -789,10 +794,10 @@ function myOwnObject() {
     firstname: "Julieta",
     lastname: "Fernandez",
     middlename: "",
-    nickName: "Juli",
+    nickame: "Juli",
     house: "Hufflepuff",
     prefect: true,
-    inquisitor: true,
+    inquisitor: false,
     expelled: false,
     blood: "Halfblood",
   };
