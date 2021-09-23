@@ -384,7 +384,7 @@ article.student .lastname {
   position: absolute;
   top: -1.5em;
   right: -1.2em;
-  font-family: var(--font-primary);
+  font-family: var(--font-third);
   background-color: var(--primary-color);
   color: white;
   font-size: 1.7em;

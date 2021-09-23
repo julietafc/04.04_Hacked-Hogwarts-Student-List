@@ -517,14 +517,6 @@ function openModal(student) {
   }
 
   /* ---------- INQUISITORIAL SQUAD FUNCTION ---------- */
-  // console.log("Student inquisitor", student.inquisitor);
-  // if (student.inquisitor === true) {
-  //   popUp.querySelector(".infoPopUp .inquisitor").classList.add("inquisitorlogobeige");
-  //   document.querySelector(".actions .inquisitor").textContent = "Remove Inquisitor";
-  // } else {
-  //   popUp.querySelector(".infoPopUp .inquisitor").classList.add("inquisitorlogo");
-  //   document.querySelector(".actions .inquisitor").textContent = "Add Inquisitor";
-  // }
 
   if (student.inquisitor === false) {
     popUp.querySelector(".infoPopUp .inquisitor").classList.add("inquisitorlogo");
@@ -602,6 +594,7 @@ function openModal(student) {
     popUp.querySelector(".responsabilities .prefect").classList.add("prefectlogo");
     popUp.querySelector(".responsabilities .prefect").classList.remove("prefectlogobeige");
     popUp.querySelector(".actions .prefect").addEventListener("click", clickPrefect);
+    document.querySelector(".actions .prefect").textContent = "Add Prefect";
   }
 
   function clickPrefect() {
@@ -821,7 +814,6 @@ function openModal(student) {
 
     popUp.querySelector(".actions .inquisitor").removeEventListener("click", clickInquisitor);
     popUp.querySelector(".actions .prefect").removeEventListener("click", clickPrefect);
-    // popUp.querySelector(".actions .expell").removeEventListener("click", clickExpell);
   });
 }
 
@@ -869,12 +861,14 @@ function randomizeBloodStatus() {
   allStudents.forEach((student) => {
     student.blood = getBloodType(student.lastname);
 
-    if (student.blood === "Halfblood") {
-      const types = ["Pureblood", "Muggleblood", "Halfblood", "Pureblood", "Muggleblood", "Halfblood"];
-      const randomNumber = Math.floor(Math.random() * 6);
+    if (student.blood === "Pureblood") {
+      const types = ["Muggleblood", "Halfblood"];
+      const randomNumber = Math.floor(Math.random() * 2);
       student.blood = types[randomNumber];
-    } else {
-      student.blood = "Halfblood";
+    } else if (student.blood === "Halfblood") {
+      student.blood = "Pureblood";
+    } else if (student.blood === "Muggleblood") {
+      student.blood = "Pureblood";
     }
   });
 }
